@@ -1,0 +1,119 @@
+"use client";
+
+import { motion } from "motion/react";
+import Image from "next/image";
+import { CheckCircle, Star, Calendar, ArrowUpRight, MessageCircle } from "lucide-react";
+
+interface OrganizerProps {
+  organizer: {
+    name: string;
+    avatar: string;
+    eventCount: number;
+    rating: number;
+    verified: boolean;
+  };
+}
+
+const recentEvents = [
+  {
+    title: "Soirée Ravel & Debussy",
+    date: "Janv. 2025",
+    image: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=120&q=70",
+  },
+  {
+    title: "Nuit Symphonique",
+    date: "Déc. 2024",
+    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=120&q=70",
+  },
+  {
+    title: "Gala de Fin d'Année",
+    date: "Nov. 2024",
+    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=120&q=70",
+  },
+];
+
+export default function EventOrganizer({ organizer }: OrganizerProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="card bg-base-200 border border-primary/10 hover:border-primary/20 transition-colors duration-200"
+    >
+      <div className="card-body p-6 gap-5">
+        <h3 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-base-content/40">
+          Organisé par
+        </h3>
+
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="relative shrink-0">
+              <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-primary/20">
+                <Image
+                  src={organizer.avatar}
+                  alt={organizer.name}
+                  width={56}
+                  height={56}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              {organizer.verified && (
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary flex items-center justify-center border-2 border-base-200">
+                  <CheckCircle size={10} className="text-primary-content" fill="currentColor" />
+                </div>
+              )}
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-0.5">
+                <h4 className="font-display text-base font-bold text-base-content">{organizer.name}</h4>
+                {organizer.verified && (
+                  <span className="badge badge-primary badge-outline text-[9px] uppercase tracking-wider py-1 px-2">Vérifié</span>
+                )}
+              </div>
+              <div className="flex items-center gap-3 text-xs text-base-content/40">
+                <div className="flex items-center gap-1">
+                  <Calendar size={11} className="text-primary/50" />
+                  <span>{organizer.eventCount} événements</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Star size={11} className="text-warning fill-warning" />
+                  <span>{organizer.rating} / 5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button className="btn btn-ghost btn-sm rounded-full border border-primary/15 hover:border-primary/40 gap-1.5 text-xs text-base-content/40 hover:text-primary">
+              <MessageCircle size={13} />
+              <span className="hidden sm:inline">Message</span>
+            </button>
+            <button className="btn btn-outline btn-primary btn-sm rounded-full gap-1.5 text-xs uppercase tracking-wider">
+              Voir le profil
+              <ArrowUpRight size={12} />
+            </button>
+          </div>
+        </div>
+
+        {/* Recent events */}
+        <div className="border-t border-primary/8 pt-4">
+          <p className="text-[10px] uppercase tracking-wider text-base-content/25 mb-3">Derniers événements</p>
+          <div className="flex gap-2">
+            {recentEvents.map((ev) => (
+              <div key={ev.title} className="flex items-center gap-2 flex-1 p-2 bg-base-300 rounded-xl border border-primary/6 hover:border-primary/20 cursor-pointer transition-colors duration-200">
+                <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0">
+                  <Image src={ev.image} alt={ev.title} fill className="object-cover" sizes="32px" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] font-medium text-base-content/60 truncate">{ev.title}</p>
+                  <p className="text-[9px] text-base-content/30">{ev.date}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
