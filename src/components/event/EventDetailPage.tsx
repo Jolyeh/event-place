@@ -82,12 +82,12 @@ export default function EventDetailPage() {
 
         {/* Back + actions overlay */}
         <div className="absolute top-6 left-0 right-0 flex items-center justify-between px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <Link href="/"
+          {/* <Link href="/"
             className="btn btn-sm bg-base-100/70 backdrop-blur-md border-primary/15 hover:border-primary/40 gap-2 text-xs uppercase tracking-wider rounded-full"
           >
             <ArrowLeft size={13} />
             Retour
-          </Link>
+          </Link> */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => setLiked(!liked)}
@@ -99,17 +99,6 @@ export default function EventDetailPage() {
               <Share2 size={15} className="text-base-content/60" />
             </button>
           </div>
-        </div>
-
-        {/* Play teaser button */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.button
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.96 }}
-            className="w-16 h-16 rounded-full bg-primary/85 backdrop-blur-sm flex items-center justify-center shadow-2xl shadow-primary/40 border border-primary-content/20"
-          >
-            <Play size={24} className="text-primary-content ml-1" fill="currentColor" />
-          </motion.button>
         </div>
 
         {/* Category badge on image */}

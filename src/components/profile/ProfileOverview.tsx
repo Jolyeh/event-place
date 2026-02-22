@@ -216,7 +216,6 @@ export default function ProfileOverview() {
             </div>
             <div className="flex-1">
               <div className="text-sm font-semibold text-primary mb-0.5">Publier un événement</div>
-              <div className="text-[11px] text-base-content/35">Devenez organisateur</div>
             </div>
             <ArrowRight size={15} className="text-primary/40 group-hover:translate-x-1 transition-transform duration-200" />
           </div>

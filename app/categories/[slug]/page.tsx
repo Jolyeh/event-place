@@ -3,6 +3,7 @@ import { events } from "@/src/lib/data";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/src/components/layout/Navbar";
+import Footer from "@/src/components/layout/Footer";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -67,6 +68,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

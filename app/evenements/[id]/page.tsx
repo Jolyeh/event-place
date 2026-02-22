@@ -1,4 +1,5 @@
 import EventDetailPage from "@/src/components/event/EventDetailPage";
+import Footer from "@/src/components/layout/Footer";
 import Navbar from "@/src/components/layout/Navbar";
 import type { Metadata } from "next";
 
@@ -12,6 +13,7 @@ export default function Page() {
     <>
       <Navbar />
       <EventDetailPage />
+      <Footer />
     </>
   );
 }

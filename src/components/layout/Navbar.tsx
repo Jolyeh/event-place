@@ -7,8 +7,8 @@ import Link from "next/link";
 
 const links = [
   { label: "Explorer", href: "/" },
-  { label: "Catégories", href: "#catgories" },
-  { label: "Evènements", href: "#events" },
+  { label: "Catégories", href: "/categories" },
+  { label: "Evènements", href: "/evenements" },
 ];
 
 export default function Navbar() {
@@ -26,11 +26,10 @@ export default function Navbar() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-base-100/90 backdrop-blur-2xl border-b border-primary/10 shadow-2xl shadow-black/30"
-          : "bg-transparent"
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled
+        ? "bg-base-100/90 backdrop-blur-2xl border-b border-primary/10 shadow-2xl shadow-black/30"
+        : "bg-transparent"
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
@@ -60,7 +59,7 @@ export default function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            <Link href="#searchBtn" className="btn btn-ghost btn-circle btn-sm text-base-content/40 hover:text-primary hidden sm:flex">
+            <Link href="/recherche" className="btn btn-ghost btn-circle btn-sm text-base-content/40 hover:text-primary hidden sm:flex">
               <Search size={18} />
             </Link>
             {/* <button className="btn btn-ghost btn-circle btn-sm text-base-content/40 hover:text-primary hidden sm:flex relative">
@@ -68,7 +67,7 @@ export default function Navbar() {
               <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-error border-2 border-base-100" />
             </button> */}
             <Link
-              href="#organisateurs"
+              href="/authentification"
               className="btn btn-primary btn-sm rounded-full text-xs uppercase tracking-widest font-semibold shadow-lg shadow-primary/30 hidden lg:flex"
             >
               Connexion
@@ -119,10 +118,15 @@ export default function Navbar() {
                   {l.label}
                 </motion.a>
               ))}
-              <div className="pt-3 border-t border-base-content/8 flex gap-2 mt-2">
-                <button className="btn btn-primary btn-sm flex-1 rounded-full text-xs uppercase tracking-widest font-semibold">
+
+              <div className="pt-3 border-t border-base-content/8 flex flex-col gap-4 mt-2">
+                <Link href="/recherche" className="btn btn-soft btn-primary btn-sm rounded-full">
+                  <Search size={18} />
+                  Recherche
+                </Link>
+                <Link href="/authentification" className="btn btn-primary p-2 btn-sm flex-1 rounded-full text-xs uppercase tracking-widest font-semibold">
                   Connexion
-                </button>
+                </Link>
               </div>
             </div>
           </motion.div>

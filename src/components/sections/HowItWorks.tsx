@@ -77,18 +77,6 @@ export default function HowItWorks() {
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="flex justify-center mt-12"
-        >
-          <a href="#events" className="btn btn-primary rounded-full text-xs uppercase tracking-widest font-semibold px-12 shadow-xl shadow-primary/25">
-            Commencer maintenant
-          </a>
-        </motion.div>
       </div>
     </section>
   );

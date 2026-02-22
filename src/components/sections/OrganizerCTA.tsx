@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import Image from "next/image";
 import { ArrowRight, BarChart2, Users, Zap, Shield } from "lucide-react";
+import Link from "next/link";
 
 const perks = [
   { Icon: BarChart2, label: "Analytics temps réel" },
@@ -84,10 +85,10 @@ export default function OrganizerCTA() {
 
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="btn btn-primary rounded-2xl gap-2 text-xs uppercase tracking-widest font-semibold px-8 shadow-xl shadow-primary/25">
+              <Link href="/authentification" className="btn btn-primary rounded-2xl gap-2 text-xs uppercase tracking-widest font-semibold px-8 shadow-xl shadow-primary/25">
                 Devenir organisateur
                 <ArrowRight size={14} />
-              </button>
+              </Link>
               {/* <button className="btn btn-ghost btn-outline rounded-2xl text-xs uppercase tracking-widest border-primary/15 hover:border-primary/35 hover:bg-primary/8">
                 En savoir plus
               </button> */}

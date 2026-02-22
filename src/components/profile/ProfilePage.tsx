@@ -12,6 +12,7 @@ import ProfileOverview from "./ProfileOverview";
 import ProfileTickets from "./ProfileTickets";
 import ProfileSaved from "./ProfileSaved";
 import ProfileSettings from "./ProfileSettings";
+import Link from "next/link";
 
 const TABS = [
   { id: "overview", label: "Vue d'ensemble", icon: LayoutDashboard },
@@ -93,14 +94,10 @@ export default function ProfilePage() {
             <button className="btn btn-ghost btn-sm rounded-full border border-primary/15 hover:border-primary/40 gap-2 text-xs uppercase tracking-wider text-base-content/50">
               <Bell size={14} />
             </button>
-            <button className="btn btn-outline btn-primary btn-sm rounded-full gap-2 text-xs uppercase tracking-widest">
-              <Edit3 size={13} />
-              Modifier
-            </button>
-            <button className="btn btn-primary btn-sm rounded-full gap-2 text-xs uppercase tracking-widest shadow-md shadow-primary/30">
+            <Link href="/publier" className="btn btn-primary btn-sm rounded-full gap-2 text-xs uppercase tracking-widest shadow-md shadow-primary/30">
               <Plus size={13} />
               Événement
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -148,10 +145,10 @@ export default function ProfilePage() {
           ))}
 
           {/* Logout at the end */}
-          <button className="ml-auto flex items-center gap-1.5 px-4 py-3 text-[10px] uppercase tracking-wider text-base-content/25 hover:text-error transition-colors duration-200 whitespace-nowrap">
+          <Link href="/authentification" className="ml-auto flex items-center gap-1.5 px-4 py-3 text-[10px] uppercase tracking-wider text-base-content/25 hover:text-error transition-colors duration-200 whitespace-nowrap">
             <LogOut size={12} />
             Déconnexion
-          </button>
+          </Link>
         </div>
 
         {/* Tab content */}

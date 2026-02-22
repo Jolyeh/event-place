@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // ─── Password strength ────────────────────────────────────────────────────────
 function getStrength(pw: string): { score: number; label: string; color: string } {
@@ -150,11 +151,15 @@ export default function AuthPage() {
 
   const strength = getStrength(form.password);
 
+  const router = useRouter();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (mode === "signup" && step === 1) { setStep(2); return; }
     setLoading(true);
     setTimeout(() => setLoading(false), 1800);
+
+    router.replace("/profile");
   };
 
   const switchMode = (m: "signin" | "signup") => {
@@ -189,8 +194,8 @@ export default function AuthPage() {
                   key={m}
                   onClick={() => switchMode(m)}
                   className={`flex-1 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-300 ${mode === m
-                      ? "bg-primary text-primary-content shadow-lg shadow-primary/25"
-                      : "text-base-content/40 hover:text-base-content/70"
+                    ? "bg-primary text-primary-content shadow-lg shadow-primary/25"
+                    : "text-base-content/40 hover:text-base-content/70"
                     }`}
                 >
                   {m === "signup" ? "Inscription" : "Connexion"}
@@ -211,8 +216,8 @@ export default function AuthPage() {
                     {[1, 2].map((s) => (
                       <div key={s} className="flex items-center gap-2 flex-1">
                         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 transition-all duration-300 ${step > s ? "bg-primary text-primary-content" :
-                            step === s ? "bg-primary text-primary-content ring-2 ring-primary/30 ring-offset-2 ring-offset-base-100" :
-                              "bg-base-300 text-base-content/25"
+                          step === s ? "bg-primary text-primary-content ring-2 ring-primary/30 ring-offset-2 ring-offset-base-100" :
+                            "bg-base-300 text-base-content/25"
                           }`}>
                           {step > s ? <Check size={11} /> : s}
                         </div>

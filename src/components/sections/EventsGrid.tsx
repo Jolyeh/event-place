@@ -7,6 +7,7 @@ import { events, categories } from "@/src/lib/data";
 import EventCard from "../ui/EventCard";
 import FeaturedEventCard from "../ui/FeaturedEventCard";
 import SectionHeader from "../ui/SectionHeader";
+import Link from "next/link";
 
 
 export default function EventsGrid() {
@@ -29,16 +30,12 @@ export default function EventsGrid() {
             title="Événements"
             titleAccent="en vedette"
           />
-          <motion.button
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <Link href="/en-vedette"
             className="btn btn-outline btn-primary rounded-full gap-2 text-xs uppercase tracking-widest shrink-0 self-start lg:self-auto mb-12 lg:mb-16"
           >
             Voir tout
             <ArrowRight size={14} />
-          </motion.button>
+          </Link>
         </div>
 
         {/* Featured */}
@@ -56,8 +53,8 @@ export default function EventsGrid() {
                 key={cat.name}
                 onClick={() => setActiveCategory(cat.name)}
                 className={`btn btn-sm rounded-full gap-1.5 text-xs uppercase tracking-wider transition-all duration-200 ${activeCategory === cat.name
-                    ? "btn-primary shadow-md shadow-primary/25"
-                    : "btn-ghost border border-primary/12 text-base-content/40 hover:border-primary/35 hover:text-primary hover:bg-primary/8"
+                  ? "btn-primary shadow-md shadow-primary/25"
+                  : "btn-ghost border border-primary/12 text-base-content/40 hover:border-primary/35 hover:text-primary hover:bg-primary/8"
                   }`}
               >
                 {cat.name}
@@ -98,16 +95,19 @@ export default function EventsGrid() {
           >
             {filtered.length > 0 ? (
               filtered.map((event, i) => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  delay={i * 0.06}
-                  variant={layout === "list" ? "compact" : "default"}
-                />
+                <Link href={`/evenements/${event.id}`} key={event.id} className="block">
+                  <EventCard
+                    key={event.id}
+                    event={event}
+                    delay={i * 0.06}
+                    variant={layout === "list" ? "compact" : "default"}
+                  />
+                </Link>
+
               ))
             ) : (
               <div className="col-span-full text-center py-16">
-                <div className="text-4xl mb-3"> <Search/> </div>
+                <div className="text-4xl mb-3"> <Search /> </div>
                 <p className="text-base-content/40 text-sm">Aucun événement dans cette catégorie pour le moment.</p>
               </div>
             )}
@@ -122,10 +122,10 @@ export default function EventsGrid() {
           transition={{ delay: 0.3 }}
           className="flex justify-center mt-12"
         >
-          <button className="btn btn-outline btn-primary rounded-full gap-2 text-xs uppercase tracking-widest px-10">
+          <Link href="/evenements" className="btn btn-outline btn-primary rounded-full gap-2 text-xs uppercase tracking-widest px-10">
             Charger plus
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>

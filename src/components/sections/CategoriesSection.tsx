@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import SectionHeader from "../ui/SectionHeader";
+import Link from "next/link";
 
 const cats = [
   { name: "Concerts & Musique", count: "2 840", image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=75", span: "col-span-2 row-span-2" },
@@ -15,21 +16,18 @@ const cats = [
 
 export default function CategoriesSection() {
   return (
-    <section className="py-20 lg:py-32 bg-base-100">
+    <section className="py-20 lg:py-32 bg-base-100" id="categories">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex lg:flex-row lg:items-end justify-between gap-6 mb-12 lg:mb-16">
           <SectionHeader title="Toutes les" titleAccent="catégories" />
-          <motion.button
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
+          <Link href="/categories"
             className="btn btn-outline btn-primary rounded-full gap-2 text-xs uppercase tracking-widest self-start lg:self-auto shrink-0 mb-12 lg:mb-16"
           >
             Voir tous <ArrowUpRight size={14} />
-          </motion.button>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[160px] lg:auto-rows-[180px]">
+        <Link href="/categories" className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[160px] lg:auto-rows-[180px]">
           {cats.map((cat, i) => (
             <motion.div
               key={cat.name}
@@ -66,7 +64,7 @@ export default function CategoriesSection() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </Link>
       </div>
     </section>
   );

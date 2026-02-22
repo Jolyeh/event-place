@@ -1,3 +1,4 @@
+import Footer from "@/src/components/layout/Footer";
 import Navbar from "@/src/components/layout/Navbar";
 import EventsPage from "@/src/components/pages/EventsPage";
 import type { Metadata } from "next";
@@ -9,8 +10,10 @@ export const metadata: Metadata = {
 
 export default function Page() {
     return (
-        <><Navbar />
+        <>
+            <Navbar />
             <EventsPage />
+            <Footer />
         </>
     );
 }
