@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @plugin "daisyui";
 
 @theme {
@@ -8,16 +9,35 @@
 
   /* --- TES ANIMATIONS --- */
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-12px);
+    }
   }
+
   @keyframes shimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
+    0% {
+      background-position: -200% center;
+    }
+
+    100% {
+      background-position: 200% center;
+    }
   }
+
   @keyframes scroll-left {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   --animate-float: float 4s ease-in-out infinite;
@@ -25,32 +45,62 @@
   --animate-scroll-left: scroll-left 30s linear infinite;
 }
 
+/* --- MODE SOMBRE (EVENT NIGHT) --- */
+@plugin "daisyui/theme" {
+  name: "night";
+  prefers-dark: true;
+
+  --color-primary: #c9a84c;
+  --color-primary-content: #0d0d1a;
+  /* Texte foncé ici aussi */
+
+  --color-secondary: #1e1b4b;
+  --color-secondary-content: #e0e7ff;
+
+  --color-accent: #433719;
+  --color-accent-content: #c9a84c;
+
+  --color-base-100: #0d0d1a;
+  --color-base-200: #12122a;
+  --color-base-300: #1a1a35;
+  --color-base-content: #e8e8f0;
+
+  --color-info: #60a5fa;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+}
+
 /* --- MODE CLAIR (EVENT LIGHT OPTIMISÉ) --- */
 @plugin "daisyui/theme" {
-  name: "event-light";
+  name: "light";
   default: true;
   prefers-dark: false;
 
   /* On garde ton doré, mais on force le texte en foncé pour le contraste */
   --color-primary: #c9a84c;
-  --color-primary-content: #1a1a1a; /* TEXTE FONCÉ SUR BOUTON DORÉ = MEILLEUR CONTRASTE */
-  
+  --color-primary-content: #1a1a1a;
+  /* TEXTE FONCÉ SUR BOUTON DORÉ = MEILLEUR CONTRASTE */
+
   /* On utilise le bleu-nuit pour faire ressortir le doré par opposition */
   --color-secondary: #1e1b4b;
   --color-secondary-content: #ffffff;
-  
-  --color-accent: #b08d32; /* Un doré un peu plus profond pour les états de survol */
+
+  --color-accent: #b08d32;
+  /* Un doré un peu plus profond pour les états de survol */
   --color-accent-content: #ffffff;
-  
+
   --color-neutral: #1f2937;
   --color-neutral-content: #f9fafb;
-  
+
   /* Fond très pur pour que le doré "pop" */
-  --color-base-100: #ffffff;    
-  --color-base-200: #f8f8f4;    /* Très légère teinte crème */
-  --color-base-300: #e5e7eb;    
-  --color-base-content: #111827; /* Texte très sombre pour la lisibilité */
-  
+  --color-base-100: #ffffff;
+  --color-base-200: #f8f8f4;
+  /* Très légère teinte crème */
+  --color-base-300: #e5e7eb;
+  --color-base-content: #111827;
+  /* Texte très sombre pour la lisibilité */
+
   /* Ajustement des couleurs d'état pour être bien visibles sur blanc */
   --color-info: #2563eb;
   --color-success: #059669;
@@ -62,27 +112,3 @@
   --radius-box: 1rem;
 }
 
-/* --- MODE SOMBRE (EVENT NIGHT) --- */
-@plugin "daisyui/theme" {
-  name: "event-night";
-  prefers-dark: true;
-
-  --color-primary: #c9a84c;
-  --color-primary-content: #0d0d1a; /* Texte foncé ici aussi */
-  
-  --color-secondary: #1e1b4b;
-  --color-secondary-content: #e0e7ff;
-  
-  --color-accent: #433719;
-  --color-accent-content: #c9a84c;
-  
-  --color-base-100: #0d0d1a;
-  --color-base-200: #12122a;
-  --color-base-300: #1a1a35;
-  --color-base-content: #e8e8f0;
-  
-  --color-info: #60a5fa;
-  --color-success: #34d399;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-}
