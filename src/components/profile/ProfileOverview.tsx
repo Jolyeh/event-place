@@ -64,9 +64,9 @@ export default function ProfileOverview() {
               <h3 className="font-display text-lg font-bold text-base-content">
                 Prochains <span className="italic font-light text-primary">événements</span>
               </h3>
-              <button className="btn btn-ghost btn-xs gap-1 text-primary/60 hover:text-primary text-[10px] uppercase tracking-wider rounded-full">
+              <a href="/evenements" className="btn btn-ghost btn-xs gap-1 text-primary/60 hover:text-primary text-[10px] uppercase tracking-wider rounded-full">
                 Voir tout <ArrowRight size={11} />
-              </button>
+              </a>
             </div>
 
             <div className="flex flex-col gap-3">
@@ -119,40 +119,6 @@ export default function ProfileOverview() {
             </div>
           </div>
         </div>
-
-        {/* Activity chart */}
-        <div className="card bg-base-200 border border-primary/8">
-          <div className="card-body p-5 gap-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-display text-lg font-bold text-base-content">
-                Activité <span className="italic font-light text-primary">2024</span>
-              </h3>
-              <div className="flex items-center gap-1.5 text-success text-xs">
-                <TrendingUp size={13} />
-                <span>+34% vs 2023</span>
-              </div>
-            </div>
-
-            <div className="flex items-end gap-2 h-28">
-              {activityData.map((val, i) => (
-                <motion.div
-                  key={i}
-                  className="flex-1 flex flex-col items-center gap-1"
-                  initial={{ opacity: 0, scaleY: 0 }}
-                  animate={{ opacity: 1, scaleY: 1 }}
-                  transition={{ delay: i * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ transformOrigin: "bottom" }}
-                >
-                  <div
-                    className="w-full rounded-t-md bg-gradient-to-t from-primary to-accent transition-all duration-300 hover:opacity-90"
-                    style={{ height: `${(val / maxVal) * 100}%`, minHeight: "4px" }}
-                  />
-                  <span className="text-[9px] text-base-content/25">{months[i]}</span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Right column */}
@@ -167,43 +133,6 @@ export default function ProfileOverview() {
             <div className="flex items-center gap-1.5 text-base-content/30 text-xs">
               <Calendar size={11} className="text-primary/40" />
               Membre depuis mars 2023
-            </div>
-          </div>
-        </div>
-
-        {/* Fav categories */}
-        <div className="card bg-base-200 border border-primary/8">
-          <div className="card-body p-5 gap-4">
-            <h3 className="font-display text-base font-bold text-base-content">
-              Catégories <span className="italic font-light text-primary">favorites</span>
-            </h3>
-            <div className="flex flex-col gap-3">
-              {favCategories.map((cat, i) => (
-                <motion.div
-                  key={cat.name}
-                  initial={{ opacity: 0, x: 8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  className="flex items-center gap-3"
-                >
-                  <span className="text-base shrink-0">{cat.emoji}</span>
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-xs text-base-content/60">{cat.name}</span>
-                      <span className="text-[10px] text-base-content/30">{cat.count}</span>
-                    </div>
-                    <div className="h-1 bg-base-300 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${cat.pct}%` }}
-                        transition={{ delay: 0.3 + i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
-                      />
-                    </div>
-                  </div>
-                  <span className="text-[10px] text-primary font-semibold">{cat.pct}%</span>
-                </motion.div>
-              ))}
             </div>
           </div>
         </div>

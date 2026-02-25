@@ -42,8 +42,8 @@ export default function EventTicketPanel({ tickets, spotsLeft, date, time }: Pro
             <Ticket size={16} className="text-primary" />
             <h3 className="font-display text-lg font-bold text-base-content">Billetterie</h3>
           </div>
-          <div className="flex items-center gap-1 text-success text-xs font-medium">
-            <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+          <div className="flex items-center gap-1 text-primary text-xs font-medium">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             {spotsLeft} places
           </div>
         </div>
@@ -152,7 +152,7 @@ export default function EventTicketPanel({ tickets, spotsLeft, date, time }: Pro
         {/* Trust badges */}
         <div className="flex items-center justify-center gap-3 pt-2 border-t border-primary/8">
           <div className="flex items-center gap-1 text-base-content/25">
-            <Shield size={11} className="text-success/50" />
+            <Shield size={11} className="text-primary/50" />
             <span className="text-[10px] uppercase tracking-wider">Paiement sécurisé</span>
           </div>
           <span className="text-base-content/15">·</span>

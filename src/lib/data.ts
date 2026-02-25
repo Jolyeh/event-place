@@ -22,7 +22,6 @@ export const events: Event[] = [
   {
     id: 1,
     title: "Orchestre Philharmonique de Paris",
-    subtitle: "Soirée Beethoven",
     category: "Concert",
     categoryEmoji: "",
     date: "15 Mars 2025",
@@ -57,7 +56,6 @@ export const events: Event[] = [
   {
     id: 3,
     title: "Lumière Perpétuelle",
-    subtitle: "Exposition contemporaine",
     category: "Exposition",
     categoryEmoji: "",
     date: "5 Avr – 12 Juin",

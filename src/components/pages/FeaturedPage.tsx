@@ -6,9 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Star, Calendar, MapPin, Users, Sparkles, ArrowRight,
-  Heart, Play, Trophy, Flame, Crown
+  Heart, Play, Trophy, Flame, Crown,
+  Share2
 } from "lucide-react";
 import { events } from "@/src/lib/data";
+import EventCard from "../ui/EventCard";
 
 const FEATURED = events.filter(e => e.featured || e.tag);
 const ALL_CURATED = [
@@ -79,16 +81,16 @@ export default function FeaturedPage() {
               </div>
 
               <div className="flex items-center gap-3">
-                <Link href={`/evenements/${hero.id}`} className="btn btn-primary rounded-full gap-2 text-xs uppercase tracking-widest font-semibold px-8 shadow-xl shadow-primary/30">
-                  Réserver — {hero.price}
+                <Link href={`/reserver/${hero.id}`} className="btn btn-primary rounded-full gap-2 text-xs uppercase tracking-widest font-semibold px-8 shadow-xl shadow-primary/30">
+                  Réserver
                   <ArrowRight size={14} />
                 </Link>
                 <button className="btn btn-circle btn-outline border-primary/30 hover:border-primary hover:bg-primary/10 text-primary transition-all duration-200">
-                  <Play size={16} fill="currentColor" />
+                  <Share2 size={16} fill="currentColor" />
                 </button>
                 <button
                   onClick={() => toggleLike(hero.id)}
-                  className={`btn btn-circle border transition-all duration-200 ${liked.includes(hero.id) ? "bg-error/10 border-error/30 text-error" : "btn-ghost border-primary/20 text-base-content/40 hover:text-error"}`}
+                  className={`btn btn-circle border transition-all duration-200 ${liked.includes(hero.id) ? "bg-primary/10 border-primary/30 text-primary" : "btn-ghost border-primary/20 text-base-content/40 hover:text-primary"}`}
                 >
                   <Heart size={16} fill={liked.includes(hero.id) ? "currentColor" : "none"} />
                 </button>
@@ -161,11 +163,10 @@ export default function FeaturedPage() {
               <button
                 key={col.id}
                 onClick={() => setActiveCollection(col.id)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap border transition-all duration-200 ${
-                  activeCollection === col.id
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap border transition-all duration-200 ${activeCollection === col.id
                     ? "bg-primary border-primary text-primary-content shadow-md shadow-primary/25"
                     : "border-primary/15 bg-base-200 text-base-content/45 hover:border-primary/35 hover:text-primary"
-                }`}
+                  }`}
               >
                 <col.icon size={13} />
                 {col.label}
@@ -184,52 +185,12 @@ export default function FeaturedPage() {
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 className="card bg-base-200 border border-primary/8 hover:border-primary/30 overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-primary/8"
               >
-                <Link href={`/evenements/${ev.id}`}>
-                  <figure className="relative h-48 overflow-hidden">
-                    <motion.div whileHover={{ scale: 1.07 }} transition={{ duration: 0.6 }} className="absolute inset-0">
-                      <Image src={ev.image} alt={ev.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
-                    </motion.div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-base-200/85 to-transparent" />
-
-                    <div className="absolute top-3 left-3 flex gap-2">
-                      <span className="badge bg-base-100/80 backdrop-blur-sm border-primary/18 text-primary text-[9px] uppercase tracking-wider py-1.5 px-2">
-                        {ev.categoryEmoji} {ev.category}
-                      </span>
-                      {ev.tag && <span className="badge badge-primary text-[9px] py-1.5">{ev.tag}</span>}
-                    </div>
-
-                    <button
-                      onClick={e => { e.preventDefault(); toggleLike(ev.id); }}
-                      className="absolute top-3 right-3 btn btn-circle btn-xs bg-base-100/75 backdrop-blur-sm border-0 opacity-0 group-hover:opacity-100 transition-all"
-                    >
-                      <Heart size={11} className={liked.includes(ev.id) ? "text-error fill-error" : "text-base-content/40"} fill={liked.includes(ev.id) ? "currentColor" : "none"} />
-                    </button>
-
-                    <div className="absolute bottom-3 left-3">
-                      <div className="flex items-center gap-1">
-                        {[...Array(5)].map((_, j) => <Star key={j} size={10} className="text-warning fill-warning" />)}
-                        <span className="text-[10px] text-white/70 ml-1">{ev.rating}</span>
-                      </div>
-                    </div>
-                  </figure>
-
-                  <div className="card-body p-4 gap-1.5">
-                    <div className="flex items-center gap-1.5 text-primary">
-                      <Calendar size={10} />
-                      <span className="text-[10px] uppercase tracking-widest">{ev.date}</span>
-                    </div>
-                    <h3 className="font-display text-base font-bold text-base-content group-hover:text-primary transition-colors line-clamp-2 leading-snug">{ev.title}</h3>
-                    <div className="flex items-center gap-1 text-base-content/32">
-                      <MapPin size={10} /><span className="text-[11px] truncate">{ev.location}, {ev.city}</span>
-                    </div>
-                    <div className="flex items-center justify-between pt-2.5 border-t border-primary/8 mt-1">
-                      <span className="font-display font-bold text-primary">{ev.price}</span>
-                      <span className="btn btn-primary btn-xs rounded-full text-[9px] uppercase tracking-wider px-4 shadow-sm shadow-primary/20">
-                        Réserver <ArrowRight size={9} />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
+                <EventCard
+                  key={ev.id}
+                  event={ev}
+                  delay={i * 0.06}
+                  variant={"default"}
+                />
               </motion.div>
             ))}
           </div>
@@ -252,9 +213,6 @@ export default function FeaturedPage() {
               Activez les alertes personnalisées et recevez les meilleures sélections selon vos goûts directement dans votre boîte mail.
             </p>
             <div className="flex justify-center gap-3 flex-wrap">
-              <Link href="/inscription" className="btn btn-primary rounded-full gap-2 text-xs uppercase tracking-widest font-semibold px-10 shadow-xl shadow-primary/25">
-                Créer mon compte <ArrowRight size={14} />
-              </Link>
               <Link href="/evenements" className="btn btn-outline border-primary/30 hover:bg-primary/8 rounded-full text-xs uppercase tracking-widest text-primary px-10">
                 Explorer tout
               </Link>

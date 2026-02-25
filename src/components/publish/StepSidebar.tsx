@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "motion/react";
-import { Check, Zap, Calendar, MapPin } from "lucide-react";
+import { Check, Zap, Calendar, MapPin, Image } from "lucide-react";
 
 export interface StepInfo {
   id: number;
@@ -70,7 +70,7 @@ export default function StepSidebar({ steps, current, progress, preview }: StepS
                   animate={{ opacity: 1 }}
                   className="w-full h-full flex flex-col items-center justify-center gap-1"
                 >
-                  <div className="text-2xl opacity-20">🖼️</div>
+                  <div className="text-2xl opacity-20"><Image/></div>
                   <span className="text-[9px] uppercase tracking-wider text-base-content/15">
                     Aperçu affiche
                   </span>

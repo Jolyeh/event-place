@@ -70,9 +70,8 @@ interface ContactOption {
 }
 
 const CONTACT_OPTIONS: ContactOption[] = [
-  { icon: MessageCircle, label: "Chat en direct", desc: "Réponse en moins de 2 minutes", action: "Démarrer le chat", time: "Dispo 9h–22h", color: "text-primary" },
-  { icon: Mail, label: "E-mail support", desc: "support@Event Place.fr", action: "Envoyer un e-mail", time: "Réponse sous 24h", color: "text-info" },
-  { icon: Phone, label: "Téléphone", desc: "+33 1 87 66 54 32", action: "Appeler", time: "Lun–Ven 9h–18h", color: "text-success" },
+  { icon: Mail, label: "E-mail support", desc: "support@Event Place.fr", action: "Envoyer un e-mail", time: "Réponse sous 24h", color: "text-primary" },
+  { icon: Phone, label: "Téléphone", desc: "+33 1 87 66 54 32", action: "Appeler", time: "Lun–Ven 9h–18h", color: "text-primary" },
 ];
 
 export default function SupportPage() {

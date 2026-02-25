@@ -7,14 +7,14 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 import { categories, events } from "@/src/lib/data";
 
 const CAT_DATA = [
-  { name: "Concert",      emoji: "🎵", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=75", desc: "Classique, rock, jazz, électro — tous les styles en live.", gradient: "from-purple-900/80" },
-  { name: "Conférence",   emoji: "💼", img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=75", desc: "Tech, business, science — les esprits qui font avancer le monde.", gradient: "from-blue-900/80" },
-  { name: "Exposition",   emoji: "🎨", img: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=75", desc: "Art contemporain, photographie, design — émerveillez vos sens.", gradient: "from-amber-900/70" },
-  { name: "Gala",         emoji: "🍾", img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=75", desc: "Soirées de prestige, galas de charité, dîners d'exception.", gradient: "from-slate-900/80" },
-  { name: "Festival",     emoji: "🎪", img: "https://images.unsplash.com/photo-1485841938031-1bf81239b815?w=800&q=75", desc: "Multi-jours, scènes multiples, ambiance unique garantie.", gradient: "from-pink-900/70" },
-  { name: "Sport",        emoji: "⚽", img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=75", desc: "Compétitions, marathons, matchs en direct — vibrez en tribune.", gradient: "from-green-900/75" },
-  { name: "Gastronomie",  emoji: "👨‍🍳", img: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800&q=75", desc: "Dégustations, ateliers culinaires, marchés gourmands.", gradient: "from-orange-900/75" },
-  { name: "Bien-être",    emoji: "🌿", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=75", desc: "Yoga, méditation, retraites — reconnectez-vous à l'essentiel.", gradient: "from-teal-900/70" },
+  { name: "Concert", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=75", desc: "Classique, rock, jazz, électro — tous les styles en live.", gradient: "from-purple-900/80" },
+  { name: "Conférence", img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=75", desc: "Tech, business, science — les esprits qui font avancer le monde.", gradient: "from-blue-900/80" },
+  { name: "Exposition", img: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=75", desc: "Art contemporain, photographie, design — émerveillez vos sens.", gradient: "from-amber-900/70" },
+  { name: "Gala", img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=75", desc: "Soirées de prestige, galas de charité, dîners d'exception.", gradient: "from-slate-900/80" },
+  { name: "Festival", img: "https://images.unsplash.com/photo-1485841938031-1bf81239b815?w=800&q=75", desc: "Multi-jours, scènes multiples, ambiance unique garantie.", gradient: "from-pink-900/70" },
+  { name: "Sport", img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=75", desc: "Compétitions, marathons, matchs en direct — vibrez en tribune.", gradient: "from-green-900/75" },
+  { name: "Gastronomie", img: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800&q=75", desc: "Dégustations, ateliers culinaires, marchés gourmands.", gradient: "from-orange-900/75" },
+  { name: "Bien-être", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=75", desc: "Yoga, méditation, retraites — reconnectez-vous à l'essentiel.", gradient: "from-teal-900/70" },
 ];
 
 const TRENDING_CATS = ["Concert", "Festival", "Gala"];
@@ -48,17 +48,19 @@ export default function CategoriesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         {/* ── Trending strip ── */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex flex-col gap-3 mb-8">
           <span className="text-[10px] uppercase tracking-[0.22em] text-base-content/30">Tendance :</span>
-          {TRENDING_CATS.map(cat => {
-            const c = CAT_DATA.find(d => d.name === cat);
-            return (
-              <Link key={cat} href={`/categories/${cat.toLowerCase()}`} className="badge badge-outline border-primary/20 text-primary/60 hover:border-primary/50 hover:text-primary text-[10px] uppercase tracking-wider py-2 px-3 gap-1.5 transition-all duration-200">
-                {c?.emoji} {cat}
-                <span className="text-primary/30">↗</span>
-              </Link>
-            );
-          })}
+          <div className="flex gap-3 items-center">
+            {TRENDING_CATS.map(cat => {
+              const c = CAT_DATA.find(d => d.name === cat);
+              return (
+                <Link key={cat} href={`/categories/${cat.toLowerCase()}`} className="badge badge-outline border-primary/20 text-primary/60 hover:border-primary/50 hover:text-primary text-[10px] uppercase tracking-wider py-2 px-3 gap-1.5 transition-all duration-200">
+                  {cat}
+                  <span className="text-primary/30">↗</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         {/* ── Main mosaic grid ── */}
@@ -99,7 +101,6 @@ export default function CategoriesPage() {
                           🔥 Tendance
                         </span>
                       )}
-                      <div className="text-3xl mb-1.5">{cat.emoji}</div>
                       <h2 className="font-display text-xl font-bold text-white leading-none mb-1 group-hover:text-primary transition-colors duration-300">
                         {cat.name}
                       </h2>
@@ -125,7 +126,7 @@ export default function CategoriesPage() {
           <h2 className="font-display text-2xl font-bold text-base-content mb-6">
             Toutes les <span className="italic font-light text-primary">catégories</span>
           </h2>
-          <div className="flex flex-col gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {CAT_DATA.map((cat, i) => {
               const count = getCatCount(cat.name) || Math.floor(Math.random() * 400) + 50;
               return (
@@ -141,7 +142,6 @@ export default function CategoriesPage() {
                       <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0">
                         <Image src={cat.img} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-400" sizes="56px" />
                       </div>
-                      <div className="text-2xl w-8 text-center">{cat.emoji}</div>
                       <div className="flex-1">
                         <h3 className="text-sm font-bold text-base-content group-hover:text-primary transition-colors duration-200">{cat.name}</h3>
                         <p className="text-[11px] text-base-content/35 mt-0.5 line-clamp-1">{cat.desc}</p>

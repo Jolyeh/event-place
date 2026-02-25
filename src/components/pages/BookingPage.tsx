@@ -81,83 +81,6 @@ const STEPS = [
   { id: 4, label: "Confirmation", icon: Check },
 ];
 
-// ─── Seat map SVG (schematic) ─────────────────────────────────────────────────
-function SeatMap({ selectedCategory }: { selectedCategory: string }) {
-  const rows = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K"];
-  const seatsPerRow = 14;
-
-  const getSeatClass = (row: string, seat: number) => {
-    const isVip = ["A", "B"].includes(row) && seat >= 5 && seat <= 10;
-    const isCat1 = ["C", "D", "E"].includes(row) || (["A", "B"].includes(row) && !isVip);
-    const isOccupied = Math.random() < 0.3;
-    const isSelected = selectedCategory === "vip" && isVip && !isOccupied;
-    const isHighlighted =
-      (selectedCategory === "vip" && isVip) ||
-      (selectedCategory === "cat1" && isCat1) ||
-      (selectedCategory === "standard" && !isVip && !isCat1);
-
-    if (isOccupied) return "fill-base-content/15 cursor-not-allowed";
-    if (isHighlighted) {
-      if (selectedCategory === "vip") return "fill-accent/70 hover:fill-accent cursor-pointer transition-colors";
-      if (selectedCategory === "cat1") return "fill-primary/60 hover:fill-primary cursor-pointer transition-colors";
-      return "fill-base-content/30 hover:fill-base-content/50 cursor-pointer transition-colors";
-    }
-    return "fill-base-content/8 cursor-not-allowed";
-  };
-
-  return (
-    <div className="w-full overflow-x-auto">
-      <div className="min-w-[340px]">
-        {/* Stage */}
-        <div className="relative mb-6">
-          <div className="h-10 rounded-xl bg-gradient-to-r from-primary/20 via-primary/35 to-primary/20 border border-primary/25 flex items-center justify-center">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-primary font-semibold">Scène</span>
-          </div>
-          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-3/4 h-3 bg-gradient-to-b from-primary/10 to-transparent rounded-b-full blur-sm" />
-        </div>
-
-        {/* Seats */}
-        <div className="flex flex-col gap-1.5">
-          {rows.map((row) => (
-            <div key={row} className="flex items-center gap-2">
-              <span className="text-[9px] uppercase font-mono text-base-content/20 w-3 text-center shrink-0">{row}</span>
-              <div className="flex gap-1 flex-1 justify-center">
-                {Array.from({ length: seatsPerRow }, (_, i) => i + 1).map((seat) => {
-                  const cls = getSeatClass(row, seat);
-                  const gap = seat === 7 ? "ml-3" : "";
-                  return (
-                    <div
-                      key={seat}
-                      className={`w-4 h-3.5 rounded-sm ${cls} ${gap}`}
-                      title={`${row}${seat}`}
-                    />
-                  );
-                })}
-              </div>
-              <span className="text-[9px] uppercase font-mono text-base-content/20 w-3 text-center shrink-0">{row}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Legend */}
-        <div className="flex items-center justify-center gap-5 mt-5 flex-wrap">
-          {[
-            { cls: "bg-accent/70", label: "VIP" },
-            { cls: "bg-primary/60", label: "Catégorie 1" },
-            { cls: "bg-base-content/30", label: "Standard" },
-            { cls: "bg-base-content/12", label: "Occupé" },
-          ].map(({ cls, label }) => (
-            <div key={label} className="flex items-center gap-1.5">
-              <div className={`w-3.5 h-2.5 rounded-sm ${cls}`} />
-              <span className="text-[10px] text-base-content/35 uppercase tracking-wider">{label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── Step 1 — Ticket selection ────────────────────────────────────────────────
 function StepTickets({
   selected,
@@ -195,13 +118,12 @@ function StepTickets({
                 onClick={() => !isSoldOut && setSelected(cat.id)}
                 disabled={isSoldOut}
                 whileTap={{ scale: 0.995 }}
-                className={`text-left rounded-2xl border-2 p-5 transition-all duration-250 relative overflow-hidden ${
-                  isSelected
-                    ? "border-primary bg-primary/8 shadow-lg shadow-primary/12"
-                    : isSoldOut
+                className={`text-left rounded-2xl border-2 p-5 transition-all duration-250 relative overflow-hidden ${isSelected
+                  ? "border-primary bg-primary/8 shadow-lg shadow-primary/12"
+                  : isSoldOut
                     ? "border-base-content/6 opacity-40 cursor-not-allowed bg-base-200"
                     : "border-primary/10 bg-base-200 hover:border-primary/30 hover:bg-primary/4 cursor-pointer"
-                }`}
+                  }`}
               >
                 {/* Selected glow */}
                 {isSelected && (
@@ -211,9 +133,8 @@ function StepTickets({
                 <div className="relative flex items-start gap-4">
                   {/* Radio */}
                   <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all duration-200 ${
-                      isSelected ? "border-primary bg-primary" : "border-base-content/20 bg-transparent"
-                    }`}
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all duration-200 ${isSelected ? "border-primary bg-primary" : "border-base-content/20 bg-transparent"
+                      }`}
                   >
                     {isSelected && <div className="w-2 h-2 rounded-full bg-primary-content" />}
                   </div>
@@ -251,28 +172,15 @@ function StepTickets({
                       {cat.perks.map((p) => (
                         <span
                           key={p}
-                          className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg border ${
-                            isSelected
-                              ? "border-primary/20 bg-primary/8 text-primary/70"
-                              : "border-base-content/8 bg-base-300 text-base-content/35"
-                          }`}
+                          className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg border ${isSelected
+                            ? "border-primary/20 bg-primary/8 text-primary/70"
+                            : "border-base-content/8 bg-base-300 text-base-content/35"
+                            }`}
                         >
                           <Check size={9} className={isSelected ? "text-primary" : "text-base-content/25"} />
                           {p}
                         </span>
                       ))}
-                    </div>
-
-                    {/* Availability bar */}
-                    <div className="mt-3">
-                      <div className="h-1 bg-base-300 rounded-full overflow-hidden">
-                        <motion.div
-                          className={`h-full rounded-full ${pct > 50 ? "bg-success/50" : pct > 20 ? "bg-warning/60" : "bg-error/60"}`}
-                          initial={{ width: 0 }}
-                          animate={{ width: `${pct}%` }}
-                          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -319,37 +227,6 @@ function StepTickets({
           </span>
         </div>
       </div>
-
-      {/* Seat map toggle */}
-      <div>
-        <button
-          onClick={() => setShowMap(!showMap)}
-          className="flex items-center gap-2 text-xs text-primary/60 hover:text-primary transition-colors uppercase tracking-wider font-semibold mb-3"
-        >
-          <MapPin size={13} />
-          {showMap ? "Masquer" : "Voir"} le plan de salle
-          <ChevronDown
-            size={13}
-            className={`transition-transform duration-300 ${showMap ? "rotate-180" : ""}`}
-          />
-        </button>
-
-        <AnimatePresence>
-          {showMap && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.35 }}
-              className="overflow-hidden"
-            >
-              <div className="card bg-base-200 border border-primary/10 p-5">
-                <SeatMap selectedCategory={selected} />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
     </div>
   );
 }
@@ -367,10 +244,9 @@ function StepContact({
   const set = (k: string, v: string) => setForm({ ...form, [k]: v });
 
   const fields = [
-    { key: "firstName", label: "Prénom", type: "text", ph: "Sophie", icon: User, half: true },
-    { key: "lastName", label: "Nom", type: "text", ph: "Martin", icon: User, half: true },
-    { key: "email", label: "Adresse e-mail", type: "email", ph: "sophie@exemple.fr", icon: Mail, half: false },
-    { key: "phone", label: "Téléphone (optionnel)", type: "tel", ph: "+33 6 12 34 56 78", icon: Phone, half: false },
+    { key: "firstName", label: "Prénom", type: "text", ph: "Sophie", half: true },
+    { key: "lastName", label: "Nom", type: "text", ph: "Martin", half: true },
+    { key: "email", label: "Adresse e-mail", type: "email", ph: "sophie@exemple.fr", half: false },
   ];
 
   return (
@@ -385,27 +261,22 @@ function StepContact({
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        {fields.map(({ key, label, type, ph, icon: Icon, half }) => (
+        {fields.map(({ key, label, type, ph, half }) => (
           <div key={key} className={`form-control gap-1.5 ${half ? "col-span-1" : "col-span-2"}`}>
             <label className="text-[10px] uppercase tracking-wider text-base-content/38">
               {label}
               {key !== "phone" && <span className="text-primary ml-0.5">*</span>}
             </label>
             <div className="relative">
-              <Icon
-                size={13}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base-content/22 pointer-events-none"
-              />
               <input
                 type={type}
                 value={form[key] ?? ""}
                 onChange={(e) => set(key, e.target.value)}
                 placeholder={ph}
-                className={`input input-bordered w-full pl-9 bg-base-200 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/18 transition-colors duration-200 ${
-                  errors[key]
-                    ? "border-error/60 focus:border-error/80"
-                    : "border-primary/12 focus:border-primary/50"
-                }`}
+                className={`input input-bordered w-full bg-base-200 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/18 transition-colors duration-200 ${errors[key]
+                  ? "border-error/60 focus:border-error/80"
+                  : "border-primary/12 focus:border-primary/50"
+                  }`}
               />
             </div>
             {errors[key] && (
@@ -417,22 +288,11 @@ function StepContact({
         ))}
       </div>
 
-      {/* Newsletter opt-in */}
-      <label className="flex items-start gap-3 cursor-pointer card bg-base-200 border border-primary/8 hover:border-primary/20 p-4 transition-colors duration-200">
-        <input type="checkbox" className="checkbox checkbox-primary checkbox-sm mt-0.5 rounded-lg shrink-0" defaultChecked />
-        <div>
-          <span className="text-sm text-base-content/65 font-medium">Recevoir des alertes événements</span>
-          <p className="text-xs text-base-content/35 mt-0.5 leading-relaxed">
-            Sélection hebdomadaire personnalisée selon vos préférences. Désabonnement en un clic.
-          </p>
-        </div>
-      </label>
-
       {/* RGPD note */}
       <div className="flex items-start gap-2.5 text-[11px] text-base-content/30 leading-relaxed">
         <Info size={12} className="text-primary/30 mt-0.5 shrink-0" />
         <span>
-          Vos données sont traitées par Eventify SAS uniquement pour la gestion de votre réservation.{" "}
+          Vos données sont traitées par Event Place uniquement pour la gestion de votre réservation.{" "}
           <Link href="/confidentialite" className="text-primary/60 hover:text-primary underline transition-colors">
             Politique de confidentialité
           </Link>
@@ -452,28 +312,13 @@ function StepPayment({
   setPayForm: (f: Record<string, string>) => void;
   payErrors: Record<string, string>;
 }) {
-  const [method, setMethod] = useState<"card" | "paypal" | "apple">("card");
-  const [showCVV, setShowCVV] = useState(false);
+  const [method, setMethod] = useState<"moov" | "mtn" | "celtis">("moov");
   const set = (k: string, v: string) => setPayForm({ ...payForm, [k]: v });
 
-  // Format card number with spaces
-  const formatCard = (val: string) =>
-    val
-      .replace(/\D/g, "")
-      .slice(0, 16)
-      .replace(/(.{4})/g, "$1 ")
-      .trim();
-
-  const formatExpiry = (val: string) => {
-    const clean = val.replace(/\D/g, "").slice(0, 4);
-    if (clean.length > 2) return clean.slice(0, 2) + "/" + clean.slice(2);
-    return clean;
-  };
-
   const PAYMENT_METHODS = [
-    { id: "card", label: "Carte bancaire", emoji: "💳" },
-    { id: "paypal", label: "PayPal", emoji: "🅿️" },
-    { id: "apple", label: "Apple Pay", emoji: "🍎" },
+    { id: "moov", label: "Moov money" },
+    { id: "mtn", label: "Mtn money" },
+    { id: "celtis", label: "Celtis cash" },
   ] as const;
 
   return (
@@ -482,7 +327,7 @@ function StepPayment({
         <h2 className="font-display text-xl font-bold text-base-content mb-1">
           Mode de <span className="italic font-light text-primary">paiement</span>
         </h2>
-        <p className="text-xs text-base-content/38">Paiement 100% sécurisé — chiffrement SSL 256 bits.</p>
+        <p className="text-xs text-base-content/38">Paiement 100% sécurisé — FedaPay.</p>
       </div>
 
       {/* Method selector */}
@@ -491,17 +336,14 @@ function StepPayment({
           <button
             key={m.id}
             onClick={() => setMethod(m.id)}
-            className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-2 rounded-2xl border-2 text-center transition-all duration-200 ${
-              method === m.id
-                ? "border-primary bg-primary/8 shadow-md shadow-primary/10"
-                : "border-primary/10 bg-base-200 hover:border-primary/25"
-            }`}
-          >
-            <span className="text-xl">{m.emoji}</span>
-            <span
-              className={`text-[10px] uppercase tracking-wider font-semibold ${
-                method === m.id ? "text-primary" : "text-base-content/35"
+            className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-2 rounded-2xl border-2 text-center transition-all duration-200 ${method === m.id
+              ? "border-primary bg-primary/8 shadow-md shadow-primary/10"
+              : "border-primary/10 bg-base-200 hover:border-primary/25"
               }`}
+          >
+            <span
+              className={`text-[10px] uppercase tracking-wider font-semibold ${method === m.id ? "text-primary" : "text-base-content/35"
+                }`}
             >
               {m.label}
             </span>
@@ -509,195 +351,37 @@ function StepPayment({
         ))}
       </div>
 
-      {/* Card form */}
+      {/* form */}
       <AnimatePresence mode="wait">
-        {method === "card" && (
-          <motion.div
-            key="card"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col gap-4"
-          >
-            {/* Visual card preview */}
-            <div
-              className="relative h-40 rounded-2xl overflow-hidden p-5 flex flex-col justify-between"
-              style={{
-                background:
-                  "linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #7C3AED 100%)",
-              }}
-            >
-              <div className="absolute inset-0 opacity-20"
-                style={{
-                  backgroundImage: "radial-gradient(circle at 80% 20%, rgba(255,255,255,0.15) 0%, transparent 60%)",
-                }}
-              />
-              {/* Chip */}
-              <div className="flex items-center justify-between relative z-10">
-                <div className="w-9 h-7 rounded-md bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center shadow-md">
-                  <div className="w-5 h-3.5 rounded-sm border border-yellow-600/40 bg-yellow-400/60" />
-                </div>
-                <div className="flex gap-1">
-                  {["●", "●", "●"].map((d, i) => (
-                    <div key={i} className="w-4 h-4 rounded-full bg-white/15" />
-                  ))}
-                  <div className="w-4 h-4 rounded-full bg-white/35" />
-                </div>
-              </div>
-
-              {/* Number */}
-              <div className="relative z-10">
-                <div className="font-mono text-base text-white/90 tracking-widest mb-2">
-                  {payForm.cardNumber
-                    ? payForm.cardNumber
-                    : "•••• •••• •••• ••••"}
-                </div>
-                <div className="flex items-end justify-between">
-                  <div>
-                    <div className="text-[9px] text-white/35 uppercase tracking-wider mb-0.5">Titulaire</div>
-                    <div className="text-xs text-white/80 font-semibold uppercase tracking-wider">
-                      {payForm.cardName || "NOM PRÉNOM"}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[9px] text-white/35 uppercase tracking-wider mb-0.5">Expire</div>
-                    <div className="text-xs text-white/80 font-mono">
-                      {payForm.expiry || "MM/YY"}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card fields */}
-            <div className="form-control gap-1.5">
-              <label className="text-[10px] uppercase tracking-wider text-base-content/38">
-                Numéro de carte <span className="text-primary">*</span>
-              </label>
-              <div className="relative">
-                <CreditCard size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base-content/22 pointer-events-none" />
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  value={payForm.cardNumber ?? ""}
-                  onChange={(e) => set("cardNumber", formatCard(e.target.value))}
-                  placeholder="1234 5678 9012 3456"
-                  maxLength={19}
-                  className={`input input-bordered w-full pl-9 bg-base-200 focus:outline-none text-sm rounded-xl h-11 font-mono tracking-widest placeholder:text-base-content/18 placeholder:font-sans placeholder:tracking-normal ${
-                    payErrors.cardNumber ? "border-error/60" : "border-primary/12 focus:border-primary/50"
-                  }`}
-                />
-              </div>
-              {payErrors.cardNumber && <p className="text-[10px] text-error">{payErrors.cardNumber}</p>}
-            </div>
-
-            <div className="form-control gap-1.5">
-              <label className="text-[10px] uppercase tracking-wider text-base-content/38">
-                Titulaire de la carte <span className="text-primary">*</span>
-              </label>
+        <motion.div
+          key="card"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.3 }}
+          className="flex flex-col gap-4"
+        >
+          {/* fields */}
+          <div className="form-control gap-1.5">
+            <label className="text-[10px] uppercase tracking-wider text-base-content/38">
+              Numéro de payement <span className="text-primary">*</span>
+            </label>
+            <div className="relative">
               <input
                 type="text"
-                value={payForm.cardName ?? ""}
-                onChange={(e) => set("cardName", e.target.value.toUpperCase())}
-                placeholder="SOPHIE MARTIN"
-                className={`input input-bordered w-full bg-base-200 focus:outline-none text-sm rounded-xl h-11 uppercase tracking-wider placeholder:text-base-content/18 placeholder:normal-case placeholder:tracking-normal ${
-                  payErrors.cardName ? "border-error/60" : "border-primary/12 focus:border-primary/50"
-                }`}
-              />
-              {payErrors.cardName && <p className="text-[10px] text-error">{payErrors.cardName}</p>}
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="form-control gap-1.5">
-                <label className="text-[10px] uppercase tracking-wider text-base-content/38">
-                  Date d&apos;expiration <span className="text-primary">*</span>
-                </label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  value={payForm.expiry ?? ""}
-                  onChange={(e) => set("expiry", formatExpiry(e.target.value))}
-                  placeholder="MM/AA"
-                  maxLength={5}
-                  className={`input input-bordered w-full bg-base-200 focus:outline-none text-sm rounded-xl h-11 font-mono tracking-widest placeholder:text-base-content/18 placeholder:font-sans placeholder:tracking-normal ${
-                    payErrors.expiry ? "border-error/60" : "border-primary/12 focus:border-primary/50"
+                inputMode="numeric"
+                value={payForm.number ?? ""}
+                onChange={(e) => set("number", e.target.value)}
+                placeholder="0190000000"
+                maxLength={10}
+                className={`input input-bordered w-full bg-base-200 focus:outline-none text-sm rounded-xl h-11 font-mono tracking-widest placeholder:text-base-content/18 placeholder:font-sans placeholder:tracking-normal ${payErrors.number ? "border-error/60" : "border-primary/12 focus:border-primary/50"
                   }`}
-                />
-                {payErrors.expiry && <p className="text-[10px] text-error">{payErrors.expiry}</p>}
-              </div>
-
-              <div className="form-control gap-1.5">
-                <label className="text-[10px] uppercase tracking-wider text-base-content/38">
-                  CVV / CVC <span className="text-primary">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type={showCVV ? "text" : "password"}
-                    inputMode="numeric"
-                    value={payForm.cvv ?? ""}
-                    onChange={(e) => set("cvv", e.target.value.replace(/\D/g, "").slice(0, 4))}
-                    placeholder="•••"
-                    maxLength={4}
-                    className={`input input-bordered w-full pr-10 bg-base-200 focus:outline-none text-sm rounded-xl h-11 font-mono tracking-widest placeholder:font-sans placeholder:tracking-normal ${
-                      payErrors.cvv ? "border-error/60" : "border-primary/12 focus:border-primary/50"
-                    }`}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowCVV(!showCVV)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/25 hover:text-primary transition-colors"
-                  >
-                    {showCVV ? <EyeOff size={14} /> : <Eye size={14} />}
-                  </button>
-                </div>
-                {payErrors.cvv && <p className="text-[10px] text-error">{payErrors.cvv}</p>}
-              </div>
+              />
             </div>
-
-            {/* Save card */}
-            <label className="flex items-center gap-3 cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-primary checkbox-sm rounded-lg" />
-              <span className="text-xs text-base-content/45">Sauvegarder cette carte pour mes prochains achats</span>
-            </label>
-          </motion.div>
-        )}
-
-        {(method === "paypal" || method === "apple") && (
-          <motion.div
-            key={method}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="card bg-base-200 border border-primary/10 p-8 text-center"
-          >
-            <div className="text-4xl mb-3">
-              {method === "paypal" ? "🅿️" : "🍎"}
-            </div>
-            <p className="text-sm text-base-content/50 mb-5">
-              Vous serez redirigé vers{" "}
-              {method === "paypal" ? "PayPal" : "Apple Pay"} pour finaliser votre paiement.
-            </p>
-            <div className="badge badge-outline border-success/25 text-success text-[10px] uppercase tracking-wider py-2 px-4 gap-1.5">
-              <Shield size={10} /> Paiement sécurisé
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Security badges */}
-      <div className="flex items-center justify-center gap-6 py-2">
-        {[
-          { icon: Lock, label: "SSL 256 bits" },
-          { icon: Shield, label: "3D Secure" },
-          { icon: CreditCard, label: "PCI-DSS" },
-        ].map(({ icon: Icon, label }) => (
-          <div key={label} className="flex items-center gap-1.5 text-base-content/25">
-            <Icon size={12} className="text-success/50" />
-            <span className="text-[10px] uppercase tracking-wider">{label}</span>
+            {payErrors.number && <p className="text-[10px] text-error">{payErrors.number}</p>}
           </div>
-        ))}
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -706,11 +390,6 @@ function StepPayment({
 function StepConfirmation({ ticket, qty }: { ticket: TicketCategory; qty: number }) {
   const [copied, setCopied] = useState(false);
   const ref = "EVT-2025-" + Math.floor(Math.random() * 9000 + 1000);
-
-  const handleCopy = () => {
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
 
   return (
     <motion.div
@@ -725,21 +404,21 @@ function StepConfirmation({ ticket, qty }: { ticket: TicketCategory; qty: number
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.15, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="w-24 h-24 rounded-full bg-success/10 border-2 border-success/25 flex items-center justify-center shadow-2xl shadow-success/15"
+          className="w-24 h-24 rounded-full bg-primary/10 border-2 border-primary/25 flex items-center justify-center shadow-2xl shadow-primary/15"
         >
-          <Check size={40} className="text-success" strokeWidth={2.5} />
+          <Check size={40} className="text-primary" strokeWidth={2.5} />
         </motion.div>
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1.5, opacity: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="absolute inset-0 rounded-full border-2 border-success/20"
+          className="absolute inset-0 rounded-full border-2 border-primary/20"
         />
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 2, opacity: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
-          className="absolute inset-0 rounded-full border border-success/10"
+          className="absolute inset-0 rounded-full border border-primary/10"
         />
       </div>
 
@@ -749,8 +428,8 @@ function StepConfirmation({ ticket, qty }: { ticket: TicketCategory; qty: number
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
         >
-          <div className="badge badge-outline border-success/25 text-success text-[10px] uppercase tracking-[0.2em] py-2 px-5 gap-2 mb-3">
-            <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+          <div className="badge badge-outline border-primary/25 text-primary text-[10px] uppercase tracking-[0.2em] py-2 px-5 gap-2 mb-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             Réservation confirmée
           </div>
           <h2 className="font-display text-2xl font-bold text-base-content mb-1">
@@ -831,56 +510,9 @@ function StepConfirmation({ ticket, qty }: { ticket: TicketCategory; qty: number
               </div>
               <div className="flex items-center gap-2 bg-primary/8 border border-primary/15 rounded-full px-3 py-1.5">
                 <span className="font-mono text-xs text-primary font-bold tracking-widest">{ref}</span>
-                <button
-                  onClick={handleCopy}
-                  className="text-primary/50 hover:text-primary transition-colors"
-                >
-                  {copied ? <Check size={11} className="text-success" /> : <QrCode size={11} />}
-                </button>
               </div>
             </div>
           </div>
-        </div>
-      </motion.div>
-
-      {/* Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="flex gap-3 w-full max-w-sm"
-      >
-        <button className="btn btn-outline border-primary/20 hover:border-primary/50 hover:bg-primary/8 rounded-full flex-1 gap-2 text-[10px] uppercase tracking-wider text-primary">
-          <Download size={13} />
-          PDF
-        </button>
-        <Link href="/profile?tab=tickets" className="btn btn-primary rounded-full flex-1 gap-2 text-[10px] uppercase tracking-widest shadow-lg shadow-primary/25">
-          <Ticket size={13} />
-          Mes billets
-        </Link>
-      </motion.div>
-
-      {/* What next */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.7 }}
-        className="w-full max-w-sm"
-      >
-        <div className="card bg-base-200 border border-primary/8 p-4 text-left">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-base-content/28 mb-3">Prochaines étapes</p>
-          {[
-            { n: 1, text: "Vérifiez vos e-mails — vos billets sont en route", done: true },
-            { n: 2, text: "Ajoutez la date à votre agenda", done: false },
-            { n: 3, text: "Arrivez 15 min avant — ouverture des portes à 19h45", done: false },
-          ].map(({ n, text, done }) => (
-            <div key={n} className="flex items-start gap-3 py-2.5 border-b border-primary/6 last:border-0">
-              <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5 ${done ? "bg-success/15 border border-success/25 text-success" : "bg-primary/10 border border-primary/20 text-primary"}`}>
-                {done ? <Check size={10} /> : n}
-              </div>
-              <p className="text-xs text-base-content/45 leading-snug">{text}</p>
-            </div>
-          ))}
         </div>
       </motion.div>
     </motion.div>
@@ -919,12 +551,8 @@ export default function BookingPage() {
 
   const validatePayment = () => {
     const e: Record<string, string> = {};
-    const num = (payForm.cardNumber ?? "").replace(/\s/g, "");
-    if (num.length !== 16) e.cardNumber = "Numéro invalide (16 chiffres)";
-    if (!payForm.cardName?.trim()) e.cardName = "Nom requis";
-    const exp = payForm.expiry ?? "";
-    if (!exp.match(/^\d{2}\/\d{2}$/)) e.expiry = "Format MM/AA";
-    if ((payForm.cvv ?? "").length < 3) e.cvv = "CVV invalide";
+    const num = (payForm.number ?? "").replace(/\s/g, "");
+    if (num.length !== 10) e.number = "Numéro invalide (10 chiffres)";
     setPayErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -946,8 +574,8 @@ export default function BookingPage() {
   const canGoNext = step !== 1 || (selectedTicket && qty > 0);
 
   return (
-    <div className="min-h-screen bg-base-100 pt-[68px]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen sm:px-20 lg:px-80 bg-base-100 pt-17">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* ── Top back link ── */}
         {step < 4 && (
@@ -960,7 +588,7 @@ export default function BookingPage() {
           </Link>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+        <div className="">
 
           {/* ── LEFT — Form area ── */}
           <div className="lg:col-span-3">
@@ -977,13 +605,12 @@ export default function BookingPage() {
                     <div key={s.id} className="flex items-center flex-1 last:flex-none">
                       <div className="flex flex-col items-center gap-1.5">
                         <div
-                          className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                            isDone
-                              ? "bg-primary border-primary"
-                              : isActive
+                          className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isDone
+                            ? "bg-primary border-primary"
+                            : isActive
                               ? "bg-primary/10 border-primary shadow-lg shadow-primary/25"
                               : "bg-base-200 border-base-content/10"
-                          }`}
+                            }`}
                         >
                           {isDone ? (
                             <Check size={15} className="text-primary-content" strokeWidth={2.5} />
@@ -992,9 +619,8 @@ export default function BookingPage() {
                           )}
                         </div>
                         <span
-                          className={`text-[10px] uppercase tracking-wider font-semibold whitespace-nowrap ${
-                            isActive ? "text-primary" : isDone ? "text-base-content/45" : "text-base-content/20"
-                          }`}
+                          className={`text-[10px] uppercase tracking-wider font-semibold whitespace-nowrap ${isActive ? "text-primary" : isDone ? "text-base-content/45" : "text-base-content/20"
+                            }`}
                         >
                           {s.label}
                         </span>
@@ -1003,9 +629,8 @@ export default function BookingPage() {
                       {!isLast && (
                         <div className="flex-1 h-px mx-2 mt-[-18px]">
                           <div
-                            className={`h-full transition-all duration-500 ${
-                              step > s.id ? "bg-primary" : "bg-base-content/8"
-                            }`}
+                            className={`h-full transition-all duration-500 ${step > s.id ? "bg-primary" : "bg-base-content/8"
+                              }`}
                           />
                         </div>
                       )}
@@ -1087,138 +712,6 @@ export default function BookingPage() {
               </div>
             )}
           </div>
-
-          {/* ── RIGHT — Order summary ── */}
-          {step < 4 && (
-            <div className="lg:col-span-2">
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15, duration: 0.5 }}
-                className="sticky top-24 flex flex-col gap-4"
-              >
-                {/* Event card */}
-                <div className="card bg-base-200 border border-primary/10 overflow-hidden">
-                  <figure className="relative h-36 overflow-hidden">
-                    <Image
-                      src={EVENT.image}
-                      alt={EVENT.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 40vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-base-200/90 to-transparent" />
-                    <div className="absolute top-3 left-3">
-                      <span className="badge bg-base-100/80 backdrop-blur-sm border-primary/18 text-primary text-[9px] uppercase tracking-wider py-1.5 px-2">
-                        {EVENT.emoji} {EVENT.category}
-                      </span>
-                    </div>
-                    <div className="absolute bottom-3 left-3 right-3">
-                      <div className="flex items-center gap-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={10} className="text-warning fill-warning" />
-                        ))}
-                        <span className="text-[10px] text-white/60 ml-1">{EVENT.rating} · {EVENT.reviews} avis</span>
-                      </div>
-                    </div>
-                  </figure>
-
-                  <div className="card-body p-4 gap-2">
-                    <h3 className="font-display text-sm font-bold text-base-content leading-snug">{EVENT.title}</h3>
-                    <p className="text-[11px] italic text-primary/55">{EVENT.subtitle}</p>
-                    <div className="flex flex-col gap-1.5 mt-1">
-                      <div className="flex items-center gap-2 text-[11px] text-base-content/40">
-                        <Calendar size={11} className="text-primary/40" />
-                        {EVENT.date} · {EVENT.time}
-                      </div>
-                      <div className="flex items-center gap-2 text-[11px] text-base-content/40">
-                        <Clock size={11} className="text-primary/40" />
-                        Durée ~2h15 · Fin vers {EVENT.endTime}
-                      </div>
-                      <div className="flex items-center gap-2 text-[11px] text-base-content/40">
-                        <MapPin size={11} className="text-primary/40" />
-                        {EVENT.location}, {EVENT.address}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Order breakdown */}
-                <div className="card bg-base-200 border border-primary/10 p-5">
-                  <h4 className="text-[10px] uppercase tracking-[0.22em] text-base-content/35 mb-4">
-                    Récapitulatif
-                  </h4>
-
-                  {/* Ticket summary */}
-                  <div className="flex items-center gap-3 mb-4 pb-4 border-b border-primary/8">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                      <Ticket size={16} className="text-primary" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold text-base-content">{ticket.name}</div>
-                      <div className="text-[10px] text-base-content/35 mt-0.5">{qty} billet{qty > 1 ? "s" : ""} × {ticket.price}€</div>
-                    </div>
-                    <div className="font-display font-bold text-primary shrink-0">{subtotal}€</div>
-                  </div>
-
-                  {/* Breakdown rows */}
-                  <div className="flex flex-col gap-2.5 mb-4 pb-4 border-b border-primary/8">
-                    <div className="flex justify-between text-xs text-base-content/45">
-                      <span>Sous-total</span>
-                      <span>{subtotal}€</span>
-                    </div>
-                    <div className="flex justify-between text-xs text-base-content/45">
-                      <span className="flex items-center gap-1">
-                        Frais de service (5%)
-                        <span className="tooltip tooltip-right" data-tip="Couvre les frais de traitement et de sécurisation">
-                          <Info size={10} className="text-base-content/25 cursor-help" />
-                        </span>
-                      </span>
-                      <span>{commission}€</span>
-                    </div>
-                  </div>
-
-                  {/* Total */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-base-content">Total TTC</span>
-                    <span className="font-display text-2xl font-bold text-primary">{total.toFixed(0)}€</span>
-                  </div>
-                </div>
-
-                {/* Guarantees */}
-                <div className="flex flex-col gap-2">
-                  {[
-                    { icon: Shield, text: "Remboursement garanti jusqu'à 48h avant" },
-                    { icon: Lock, text: "Paiement 100% sécurisé — SSL 256 bits" },
-                    { icon: Zap, text: "Billets instantanés par e-mail" },
-                  ].map(({ icon: Icon, text }) => (
-                    <div key={text} className="flex items-center gap-2.5 text-[11px] text-base-content/35">
-                      <Icon size={12} className="text-success/50 shrink-0" />
-                      {text}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Promo code */}
-                <details className="group">
-                  <summary className="flex items-center gap-2 text-[11px] text-primary/50 hover:text-primary cursor-pointer transition-colors uppercase tracking-wider list-none select-none">
-                    <span>Vous avez un code promo ?</span>
-                    <ChevronRight size={12} className="group-open:rotate-90 transition-transform duration-200" />
-                  </summary>
-                  <div className="mt-3 flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Code promo"
-                      className="input input-bordered input-sm flex-1 bg-base-300 border-primary/12 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-10 uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal"
-                    />
-                    <button className="btn btn-sm btn-outline border-primary/20 hover:border-primary/50 hover:bg-primary/8 rounded-xl text-primary text-xs uppercase tracking-wider px-4">
-                      OK
-                    </button>
-                  </div>
-                </details>
-              </motion.div>
-            </div>
-          )}
         </div>
       </div>
     </div>

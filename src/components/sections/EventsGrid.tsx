@@ -90,19 +90,17 @@ export default function EventsGrid() {
             className={
               layout === "grid"
                 ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-                : "flex flex-col gap-3"
+                : "grid grid-cols-1 lg:grid-cols-2 flex-col gap-3"
             }
           >
             {filtered.length > 0 ? (
               filtered.map((event, i) => (
-                <Link href={`/evenements/${event.id}`} key={event.id} className="block">
-                  <EventCard
-                    key={event.id}
-                    event={event}
-                    delay={i * 0.06}
-                    variant={layout === "list" ? "compact" : "default"}
-                  />
-                </Link>
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  delay={i * 0.06}
+                  variant={layout === "list" ? "compact" : "default"}
+                />
 
               ))
             ) : (

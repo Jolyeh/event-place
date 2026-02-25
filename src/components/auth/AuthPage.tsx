@@ -142,7 +142,7 @@ export default function AuthPage() {
 
   const [form, setForm] = useState({
     email: "", password: "", confirm: "",
-    firstName: "", lastName: "", phone: "", birthdate: "",
+    firstName: "", lastName: "", npi: "", cip: "",
     agreeTerms: false, agreeNewsletter: false,
   });
 
@@ -165,7 +165,7 @@ export default function AuthPage() {
   const switchMode = (m: "signin" | "signup") => {
     setMode(m);
     setStep(1);
-    setForm({ email: "", password: "", confirm: "", firstName: "", lastName: "", phone: "", birthdate: "", agreeTerms: false, agreeNewsletter: false });
+    setForm({ email: "", password: "", confirm: "", firstName: "", lastName: "", npi: "", cip: "", agreeTerms: false, agreeNewsletter: false });
   };
 
   return (
@@ -247,43 +247,10 @@ export default function AuthPage() {
                     step === 1 ? "Créer un compte" : "Votre profil"}
                 </h1>
                 <p className="text-sm text-base-content/40">
-                  {mode === "signin" ? "Heureux de vous revoir 👋" :
+                  {mode === "signin" ? "Heureux de vous revoir !" :
                     step === 1 ? "Renseignez vos identifiants de connexion." : "Quelques infos supplémentaires."}
                 </p>
               </motion.div>
-            </AnimatePresence>
-
-            {/* OAuth buttons (only on step 1) */}
-            <AnimatePresence>
-              {(mode === "signin" || step === 1) && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <div className="grid grid-cols-2 gap-3 mb-5">
-                    <button className="btn btn-outline border-base-content/12 hover:border-primary/30 hover:bg-primary/8 rounded-xl gap-2 text-xs font-medium text-base-content/50 hover:text-base-content/80 transition-all duration-200">
-                      <svg width="16" height="16" viewBox="0 0 24 24">
-                        <path fill="#EA4335" d="M5.26 9.77A7.22 7.22 0 0 1 12 4.8c1.73 0 3.3.62 4.53 1.64l3.38-3.37C17.76 1.19 15.07 0 12 0 7.5 0 3.67 2.7 1.84 6.63l3.42 3.14z" />
-                        <path fill="#34A853" d="M16.04 18.01A7.13 7.13 0 0 1 12 19.2a7.21 7.21 0 0 1-6.73-4.6l-3.44 2.65C3.65 21.29 7.5 24 12 24c2.99 0 5.65-1.11 7.72-2.94l-3.68-3.05z" />
-                        <path fill="#4A90E2" d="M19.72 21.06C21.83 19.07 23.2 16.19 23.2 12c0-.74-.1-1.52-.26-2.24H12v4.57h6.34a5.38 5.38 0 0 1-2.32 3.52l3.7 3.21z" />
-                        <path fill="#FBBC05" d="M5.27 14.6A7.25 7.25 0 0 1 4.8 12c0-.9.15-1.77.43-2.59L1.81 6.27A11.94 11.94 0 0 0 0 12c0 1.99.49 3.86 1.35 5.5l3.92-2.9z" />
-                      </svg>
-                      Google
-                    </button>
-                    <button className="btn btn-outline border-base-content/12 hover:border-primary/30 hover:bg-primary/8 rounded-xl gap-2 text-xs font-medium text-base-content/50 hover:text-base-content/80 transition-all duration-200">
-                      <Github size={16} />
-                      GitHub
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="flex-1 h-px bg-base-content/8" />
-                    <span className="text-[10px] uppercase tracking-widest text-base-content/25">ou</span>
-                    <div className="flex-1 h-px bg-base-content/8" />
-                  </div>
-                </motion.div>
-              )}
             </AnimatePresence>
 
             {/* Form */}
@@ -305,14 +272,13 @@ export default function AuthPage() {
                           Adresse e-mail <span className="text-primary">*</span>
                         </label>
                         <div className="relative">
-                          <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/40" />
                           <input
                             type="email"
                             required
                             value={form.email}
                             onChange={(e) => set("email", e.target.value)}
                             placeholder="vous@exemple.fr"
-                            className="input input-bordered w-full pl-10 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
+                            className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
                           />
                         </div>
                       </div>
@@ -322,14 +288,13 @@ export default function AuthPage() {
                           Mot de passe <span className="text-primary">*</span>
                         </label>
                         <div className="relative">
-                          <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/40" />
                           <input
                             type={showPw ? "text" : "password"}
                             required
                             value={form.password}
                             onChange={(e) => set("password", e.target.value)}
                             placeholder={mode === "signup" ? "Min. 8 caractères" : "Votre mot de passe"}
-                            className="input input-bordered w-full pl-10 pr-11 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
+                            className="input input-bordered w-full pr-11 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
                           />
                           <button type="button" onClick={() => setShowPw(!showPw)}
                             className="absolute right-3.5 top-1/2 -translate-y-1/2 text-base-content/30 hover:text-primary transition-colors">
@@ -355,13 +320,12 @@ export default function AuthPage() {
                             Confirmer le mot de passe <span className="text-primary">*</span>
                           </label>
                           <div className="relative">
-                            <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/40" />
                             <input
                               type={showConfirm ? "text" : "password"}
                               value={form.confirm}
                               onChange={(e) => set("confirm", e.target.value)}
                               placeholder="Répétez votre mot de passe"
-                              className={`input input-bordered w-full pl-10 pr-11 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20 ${form.confirm && form.confirm !== form.password ? "border-error/40" : ""
+                              className={`input input-bordered w-full pr-11 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20 ${form.confirm && form.confirm !== form.password ? "border-error/40" : ""
                                 }`}
                             />
                             <button type="button" onClick={() => setShowConfirm(!showConfirm)}
@@ -394,14 +358,13 @@ export default function AuthPage() {
                             Prénom <span className="text-primary">*</span>
                           </label>
                           <div className="relative">
-                            <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/40" />
                             <input
                               type="text"
                               required
                               value={form.firstName}
                               onChange={(e) => set("firstName", e.target.value)}
                               placeholder="Jean"
-                              className="input input-bordered w-full pl-10 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
+                              className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
                             />
                           </div>
                         </div>
@@ -422,50 +385,30 @@ export default function AuthPage() {
 
                       <div className="form-control gap-1.5">
                         <label className="label-text text-[10px] uppercase tracking-[0.2em] text-base-content/40 font-semibold">
-                          Téléphone
+                          Numéro NPI <span className="text-primary">*</span>
                         </label>
                         <div className="relative">
-                          <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/40" />
                           <input
-                            type="tel"
-                            value={form.phone}
-                            onChange={(e) => set("phone", e.target.value)}
-                            placeholder="+33 6 00 00 00 00"
-                            className="input input-bordered w-full pl-10 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
+                            type="number"
+                            value={form.npi}
+                            onChange={(e) => set("npi", e.target.value)}
+                            placeholder="1000000000"
+                            className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
                           />
                         </div>
                       </div>
 
                       <div className="form-control gap-1.5">
                         <label className="label-text text-[10px] uppercase tracking-[0.2em] text-base-content/40 font-semibold">
-                          Date de naissance
+                          Image du carte CIP <span className="text-primary">*</span>
                         </label>
                         <div className="relative">
-                          <Calendar size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/40" />
                           <input
-                            type="date"
-                            value={form.birthdate}
-                            onChange={(e) => set("birthdate", e.target.value)}
-                            className="input input-bordered w-full pl-10 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11"
+                            type="file"
+                            className="file-input file-input-primary w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11"
+                            value={form.cip}
+                            onChange={(e) => set("cip", e.target.value)}
                           />
-                        </div>
-                      </div>
-
-                      {/* Category preferences */}
-                      <div className="form-control gap-2">
-                        <label className="label-text text-[10px] uppercase tracking-[0.2em] text-base-content/40 font-semibold">
-                          Vos centres d&apos;intérêt
-                        </label>
-                        <div className="flex flex-wrap gap-1.5">
-                          {["🎵 Concerts", "🎨 Art", "💼 Conférences", "⚽ Sport", "🍾 Galas", "🎪 Festivals", "🌿 Bien-être", "🎭 Théâtre"].map((cat) => (
-                            <button
-                              key={cat}
-                              type="button"
-                              className="btn btn-xs rounded-full border border-primary/15 bg-transparent text-base-content/40 hover:border-primary/50 hover:text-primary hover:bg-primary/8 text-[10px] uppercase tracking-wider transition-all duration-200"
-                            >
-                              {cat}
-                            </button>
-                          ))}
                         </div>
                       </div>
 
@@ -517,29 +460,6 @@ export default function AuthPage() {
                 )}
               </button>
             </form>
-
-            {/* Back link for step 2 */}
-            {mode === "signup" && step === 2 && (
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="btn btn-ghost btn-sm w-full rounded-xl text-xs text-base-content/30 hover:text-base-content/60 mt-2"
-              >
-                ← Retour
-              </button>
-            )}
-
-            {/* Switch mode link */}
-            <p className="text-center text-xs text-base-content/30 mt-6">
-              {mode === "signup" ? "Déjà un compte ? " : "Pas encore de compte ? "}
-              <button
-                type="button"
-                onClick={() => switchMode(mode === "signup" ? "signin" : "signup")}
-                className="text-primary hover:text-accent transition-colors font-semibold"
-              >
-                {mode === "signup" ? "Se connecter" : "S'inscrire gratuitement"}
-              </button>
-            </p>
           </div>
         </div>
       </div>

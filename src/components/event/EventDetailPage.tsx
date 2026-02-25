@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowLeft, Heart, Share2, Star, MapPin, Calendar, Clock,
   Users, Ticket, ChevronRight, Check, ExternalLink, Play
@@ -18,7 +17,6 @@ const EVENT = {
   title: "Orchestre Philharmonique de Paris",
   subtitle: "Soirée Beethoven & Brahms",
   category: "Concert classique",
-  emoji: "🎵",
   date: "Samedi 15 Mars 2025",
   time: "20h30 — 23h00",
   location: "Philharmonie de Paris",
@@ -93,7 +91,7 @@ export default function EventDetailPage() {
               onClick={() => setLiked(!liked)}
               className="btn btn-circle btn-sm bg-base-100/70 backdrop-blur-md border-primary/15 hover:border-error/30"
             >
-              <Heart size={15} className={liked ? "text-error fill-error" : "text-base-content/60"} />
+              <Heart size={15} className={liked ? "text-primary fill-primary" : "text-base-content/60"} />
             </button>
             <button className="btn btn-circle btn-sm bg-base-100/70 backdrop-blur-md border-primary/15 hover:border-primary/40">
               <Share2 size={15} className="text-base-content/60" />
@@ -104,7 +102,7 @@ export default function EventDetailPage() {
         {/* Category badge on image */}
         <div className="absolute bottom-8 left-4 sm:left-8">
           <span className="badge bg-base-100/80 backdrop-blur-md border-primary/25 text-primary text-[10px] uppercase tracking-widest py-2.5 px-3 font-semibold">
-            {EVENT.emoji} {EVENT.category}
+            {EVENT.category}
           </span>
         </div>
       </div>
@@ -136,8 +134,8 @@ export default function EventDetailPage() {
                   <span className="text-sm font-semibold text-base-content ml-1">{EVENT.rating}</span>
                   <span className="text-sm text-base-content/35">({EVENT.reviewCount} avis)</span>
                 </div>
-                <div className="flex items-center gap-1 text-success text-sm">
-                  <span className="w-2 h-2 rounded-full bg-success" />
+                <div className="flex items-center gap-1 text-primary text-sm">
+                  <span className="w-2 h-2 rounded-full bg-primary" />
                   <span className="font-medium">{EVENT.spotsLeft} places restantes</span>
                 </div>
               </div>

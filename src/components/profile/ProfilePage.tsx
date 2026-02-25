@@ -129,8 +129,8 @@ export default function ProfilePage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold uppercase tracking-wider whitespace-nowrap border-b-2 transition-all duration-200 relative -mb-px ${activeTab === tab.id
-                  ? "border-primary text-primary"
-                  : "border-transparent text-base-content/35 hover:text-base-content/60 hover:border-primary/20"
+                ? "border-primary text-primary"
+                : "border-transparent text-base-content/35 hover:text-base-content/60 hover:border-primary/20"
                 }`}
             >
               <tab.icon size={13} />
@@ -143,12 +143,6 @@ export default function ProfilePage() {
               )}
             </button>
           ))}
-
-          {/* Logout at the end */}
-          <Link href="/authentification" className="ml-auto flex items-center gap-1.5 px-4 py-3 text-[10px] uppercase tracking-wider text-base-content/25 hover:text-error transition-colors duration-200 whitespace-nowrap">
-            <LogOut size={12} />
-            Déconnexion
-          </Link>
         </div>
 
         {/* Tab content */}

@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Calendar, MapPin, Users, ArrowRight, Star, Ticket } from "lucide-react";
 import Image from "next/image";
 import type { Event } from "@/src/lib/data";
+import Link from "next/link";
 
 export default function FeaturedEventCard({ event }: { event: Event }) {
   return (
@@ -123,10 +124,10 @@ export default function FeaturedEventCard({ event }: { event: Event }) {
             <div className="text-[10px] uppercase tracking-wider text-base-content/25 mb-0.5">À partir de</div>
             <div className="font-display text-2xl lg:text-3xl font-bold text-primary">{event.price}</div>
           </div>
-          <button className="btn btn-primary rounded-2xl gap-2 px-8 flex-1 sm:flex-none text-xs uppercase tracking-widest font-semibold shadow-xl shadow-primary/30">
+          <Link href={`/reserver/${event.id}`} className="btn btn-primary rounded-2xl gap-2 px-8 flex-1 sm:flex-none text-xs uppercase tracking-widest font-semibold shadow-xl shadow-primary/30">
             Réserver maintenant
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
       </div>
     </motion.div>
