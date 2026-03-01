@@ -16,7 +16,7 @@ export const sendMail = async ({
 }: SendMailOptions): Promise<boolean> => {
   try {
     const info: SentMessageInfo = await transporter.sendMail({
-      from: `"MonApp" <${process.env.EMAIL_USER}>`,
+      from: `"MonApp" <${process.env.SMTP_USER}>`,
       to,
       subject,
       text,
