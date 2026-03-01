@@ -374,6 +374,7 @@ function StepPayment({
                 onChange={(e) => set("number", e.target.value)}
                 placeholder="0190000000"
                 maxLength={10}
+                min={10}
                 className={`input input-bordered w-full bg-base-200 focus:outline-none text-sm rounded-xl h-11 font-mono tracking-widest placeholder:text-base-content/18 placeholder:font-sans placeholder:tracking-normal ${payErrors.number ? "border-error/60" : "border-primary/12 focus:border-primary/50"
                   }`}
               />

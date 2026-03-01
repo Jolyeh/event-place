@@ -1,5 +1,5 @@
 {
-  "name": "app-next-kit",
+  "name": "Event Place",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@prisma/client": "6.19",
-    "better-auth": "^1.4.18",
     "daisyui": "^5.5.18",
     "dotenv": "^17.3.1",
     "lucide-react": "^0.570.0",

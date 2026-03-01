@@ -341,7 +341,7 @@ export default function AuthPage() {
 
                       {mode === "signin" && (
                         <div className="flex justify-end -mt-1">
-                          <a href="#" className="text-xs text-primary/60 hover:text-primary transition-colors">
+                          <a href="/mot-de-passe-oublie" className="text-xs text-primary/60 hover:text-primary transition-colors">
                             Mot de passe oublié ?
                           </a>
                         </div>
@@ -389,10 +389,13 @@ export default function AuthPage() {
                         </label>
                         <div className="relative">
                           <input
-                            type="number"
+                            type="text"
+                            inputMode="numeric"
                             value={form.npi}
                             onChange={(e) => set("npi", e.target.value)}
                             placeholder="1000000000"
+                            maxLength={10}
+                            min={10}
                             className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
                           />
                         </div>
@@ -423,7 +426,7 @@ export default function AuthPage() {
                             required
                           />
                           <span className="text-xs text-base-content/40 leading-relaxed">
-                            J&apos;accepte les <a href="#" className="text-primary hover:underline">Conditions d&apos;utilisation</a> et la <a href="#" className="text-primary hover:underline">Politique de confidentialité</a> <span className="text-primary">*</span>
+                            J&apos;accepte les <a href="/cgu" className="text-primary hover:underline">Conditions d&apos;utilisation</a> et la <a href="/confidentialite" className="text-primary hover:underline">Politique de confidentialité</a> <span className="text-primary">*</span>
                           </span>
                         </label>
                         <label className="flex items-start gap-3 cursor-pointer">

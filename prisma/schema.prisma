@@ -1,3 +1,7 @@
+// ============================================================
+// Prisma Schema — Event Place (MongoDB)
+// Auth custom (sans Better Auth)
+// ============================================================
 
 
 generator client {
@@ -8,4 +12,187 @@ generator client {
 datasource db {
   provider = "mongodb"
   //url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// AUTH — Custom
+// ============================================================
+
+model User {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  email          String   @unique
+  password String
+  image          String?
+  emailVerified  Boolean  @default(false)
+  role           UserRole @default(ATTENDEE)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  sessions            Session[]
+  passwordResetTokens PasswordResetToken[]
+  emailVerifications  EmailVerification[]
+  events              Event[]   @relation("OrganizerEvents")
+  bookings            Booking[]
+}
+
+// Sessions (cookie / token opaque)
+model Session {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Tokens de réinitialisation de mot de passe
+model PasswordResetToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Tokens de vérification d'email
+model EmailVerification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// DOMAINE — Event Place
+// ============================================================
+
+model Event {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  category    String
+  language    String      @default("fr")
+  status      EventStatus @default(DRAFT)
+
+  // Date & heure
+  dateStart DateTime
+  timeStart String?
+  dateEnd   DateTime?
+  timeEnd   String?
+  multiDay  Boolean   @default(false)
+
+  // Lieu
+  isOnline  Boolean @default(false)
+  onlineUrl String?
+  venue     String?
+  address   String?
+  city      String?
+  capacity  Int?
+
+  // Médias
+  coverImage String?
+  gallery    String[]
+
+  // Billetterie
+  isFree    Boolean   @default(false)
+  saleStart DateTime?
+  saleEnd   DateTime?
+
+  // Options
+  tags                 String[]
+  isPublic             Boolean  @default(true)
+  requiresRegistration Boolean  @default(false)
+  showCapacity         Boolean  @default(false)
+  allowRefunds         Boolean  @default(false)
+  ageRestriction       String?
+  contactEmail         String?
+  website              String?
+  rating               Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organizerId String    @db.ObjectId
+  organizer   User      @relation("OrganizerEvents", fields: [organizerId], references: [id])
+  tickets     Ticket[]
+  bookings    Booking[]
+}
+
+model Ticket {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  price       Float
+  quantity    Int
+  sold        Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  eventId      String        @db.ObjectId
+  event        Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  bookingItems BookingItem[]
+}
+
+model Booking {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  reference   String        @unique // Ex: "EP-2025-XXXXX"
+  status      BookingStatus @default(PENDING)
+  totalAmount Float
+  paidAt      DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  userId  String        @db.ObjectId
+  user    User          @relation(fields: [userId], references: [id])
+  eventId String        @db.ObjectId
+  event   Event         @relation(fields: [eventId], references: [id])
+  items   BookingItem[]
+}
+
+model BookingItem {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  quantity Int
+  price    Float  // snapshot du prix au moment de l'achat
+
+  bookingId String  @db.ObjectId
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  ticketId  String  @db.ObjectId
+  ticket    Ticket  @relation(fields: [ticketId], references: [id])
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum UserRole {
+  ATTENDEE   // Simple participant
+  ORGANIZER  // Peut créer des événements
+  ADMIN      // Administration de la plateforme
+}
+
+enum EventStatus {
+  DRAFT      // En cours de création
+  PENDING    // En attente de validation
+  PUBLISHED  // Publié et visible
+  CANCELLED  // Annulé
+  COMPLETED  // Terminé
+}
+
+enum BookingStatus {
+  PENDING    // En attente de paiement
+  CONFIRMED  // Paiement confirmé
+  CANCELLED  // Annulé
+  REFUNDED   // Remboursé
 }

@@ -93,7 +93,7 @@ export default function Navbar() {
 
             <Link
               href="/authentification"
-              className="btn btn-primary btn-sm rounded-full text-xs uppercase tracking-widest font-semibold shadow-lg shadow-primary/30 hidden lg:flex px-6"
+              className="btn btn-primary btn-sm rounded-xl text-xs uppercase tracking-widest font-semibold shadow-lg shadow-primary/30 hidden lg:flex px-6"
             >
               Connexion
             </Link>
@@ -160,7 +160,7 @@ export default function Navbar() {
                 <Link 
                   href="/authentification" 
                   onClick={() => setOpen(false)}
-                  className="btn btn-primary btn-md rounded-2xl text-xs uppercase tracking-[0.2em] font-bold shadow-lg shadow-primary/20"
+                  className="btn btn-primary btn-md rounded-xl text-xs uppercase tracking-[0.2em] font-bold shadow-lg shadow-primary/20"
                 >
                   Connexion
                 </Link>
