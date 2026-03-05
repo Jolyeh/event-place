@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, Zap, Search, Sun, Moon } from "lucide-react";
+import { Menu, X, Zap, Search, Sun, Moon, User, LogOut } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 const links = [
   { label: "Explorer", href: "/" },
@@ -15,15 +16,32 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [theme, setTheme] = useState("night");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const isOnProfile = pathname === "/profile";
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setIsLoggedIn(false);
+    setOpen(false);
+    router.push("/authentification");
+  };
 
   useEffect(() => {
-    // Récupérer le thème au chargement (night par défaut)
     const savedTheme = localStorage.getItem("theme") || "night";
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
 
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Vérifier si l'utilisateur est connecté
+    fetch("/api/auth/me")
+      .then((res) => setIsLoggedIn(res.ok))
+      .catch(() => setIsLoggedIn(false));
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -33,6 +51,10 @@ export default function Navbar() {
     localStorage.setItem("theme", newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
   };
+
+  const authHref = isLoggedIn && !isOnProfile ? "/profile" : "/authentification";
+  const authLabel = isLoggedIn && isOnProfile ? "Déconnexion" : isLoggedIn ? "Mon compte" : "Connexion";
+  const AuthIcon = isLoggedIn && isOnProfile ? LogOut : User;
 
   return (
     <motion.header
@@ -47,7 +69,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          
+
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group shrink-0">
             <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/40 group-hover:scale-105 transition-transform duration-200">
@@ -73,13 +95,13 @@ export default function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            
-            {/* THEME CONTROLLER */}
+
+            {/* Theme controller */}
             <label className="btn btn-ghost btn-circle btn-sm swap swap-rotate text-base-content/40 hover:text-primary">
-              <input 
-                type="checkbox" 
-                className="theme-controller" 
-                value="light" 
+              <input
+                type="checkbox"
+                className="theme-controller"
+                value="light"
                 onChange={handleThemeChange}
                 checked={theme === "light"}
               />
@@ -91,12 +113,23 @@ export default function Navbar() {
               <Search size={18} />
             </Link>
 
-            <Link
-              href="/authentification"
-              className="btn btn-primary btn-sm rounded-xl text-xs uppercase tracking-widest font-semibold shadow-lg shadow-primary/30 hidden lg:flex px-6"
-            >
-              Connexion
-            </Link>
+            {isLoggedIn && isOnProfile ? (
+              <button
+                onClick={handleLogout}
+                className="btn btn-primary btn-sm rounded-xl text-xs uppercase tracking-widest font-semibold shadow-lg shadow-primary/30 hidden lg:flex px-6 gap-2"
+              >
+                <LogOut size={14} />
+                Déconnexion
+              </button>
+            ) : (
+              <Link
+                href={authHref}
+                className="btn btn-primary btn-sm rounded-xl text-xs uppercase tracking-widest font-semibold shadow-lg shadow-primary/30 hidden lg:flex px-6 gap-2"
+              >
+                {isLoggedIn && <User size={14} />}
+                {authLabel}
+              </Link>
+            )}
 
             {/* Mobile toggle */}
             <button
@@ -119,7 +152,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu (LE RETOUR) */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -149,21 +182,32 @@ export default function Navbar() {
               ))}
 
               <div className="pt-6 border-t border-base-content/5 flex flex-col gap-3 mt-4">
-                <Link 
-                  href="/recherche" 
+                <Link
+                  href="/recherche"
                   onClick={() => setOpen(false)}
                   className="btn btn-outline border-primary/20 hover:bg-primary/5 hover:border-primary text-primary btn-md rounded-2xl flex justify-between px-6"
                 >
                   <span className="text-xs uppercase tracking-[0.2em] font-bold">Recherche</span>
                   <Search size={18} />
                 </Link>
-                <Link 
-                  href="/authentification" 
-                  onClick={() => setOpen(false)}
-                  className="btn btn-primary btn-md rounded-xl text-xs uppercase tracking-[0.2em] font-bold shadow-lg shadow-primary/20"
-                >
-                  Connexion
-                </Link>
+                {isLoggedIn && isOnProfile ? (
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-primary btn-md rounded-xl text-xs uppercase tracking-[0.2em] font-bold shadow-lg shadow-primary/20 gap-2"
+                  >
+                    <LogOut size={14} />
+                    Déconnexion
+                  </button>
+                ) : (
+                  <Link
+                    href={authHref}
+                    onClick={() => setOpen(false)}
+                    className="btn btn-primary btn-md rounded-xl text-xs uppercase tracking-[0.2em] font-bold shadow-lg shadow-primary/20 gap-2"
+                  >
+                    {isLoggedIn && <User size={14} />}
+                    {authLabel}
+                  </Link>
+                )}
               </div>
             </div>
           </motion.div>

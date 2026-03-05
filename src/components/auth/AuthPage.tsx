@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  Zap, Eye, EyeOff, Check, ArrowRight, Chrome, Github,
-  Mail, Lock, User, Phone, Calendar, ChevronRight
-} from "lucide-react";
+import { Zap, Eye, EyeOff, Check, ArrowRight, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -34,7 +31,6 @@ function LeftPanel({ mode }: { mode: "signin" | "signup" }) {
   ];
   return (
     <div className="hidden lg:flex flex-col w-[45%] shrink-0 relative overflow-hidden bg-base-200">
-      {/* BG image */}
       <div className="absolute inset-0">
         <Image
           src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=900&q=80"
@@ -44,15 +40,13 @@ function LeftPanel({ mode }: { mode: "signin" | "signup" }) {
           priority
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-br from-base-100/90 via-base-200/70 to-primary/10" />
-      {/* Grid pattern */}
+      <div className="absolute inset-0 bg-linear-to-br from-base-100/90 via-base-200/70 to-primary/10" />
       <div className="absolute inset-0 opacity-5" style={{
         backgroundImage: "linear-gradient(rgba(124,58,237,1) 1px, transparent 1px), linear-gradient(to right, rgba(124,58,237,1) 1px, transparent 1px)",
         backgroundSize: "48px 48px"
       }} />
 
       <div className="relative z-10 flex flex-col justify-between h-full p-10 xl:p-14">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group w-fit">
           <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/40">
             <Zap size={18} className="text-primary-content" fill="currentColor" />
@@ -60,7 +54,6 @@ function LeftPanel({ mode }: { mode: "signin" | "signup" }) {
           <span className="font-display text-2xl font-bold text-primary tracking-wide">Event Place</span>
         </Link>
 
-        {/* Main content */}
         <div>
           <AnimatePresence mode="wait">
             <motion.div
@@ -87,7 +80,6 @@ function LeftPanel({ mode }: { mode: "signin" | "signup" }) {
                   : "Connectez-vous pour accéder à vos billets, favoris et recommandations personnalisées."}
               </p>
 
-              {/* Features */}
               <div className="flex flex-col gap-3">
                 {features.map((f, i) => (
                   <motion.div
@@ -108,7 +100,6 @@ function LeftPanel({ mode }: { mode: "signin" | "signup" }) {
           </AnimatePresence>
         </div>
 
-        {/* Social proof */}
         <div className="flex items-center gap-4 pt-6 border-t border-primary/10">
           <div className="flex -space-x-2">
             {[
@@ -137,8 +128,10 @@ export default function AuthPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signup");
   const [showPw, setShowPw] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [step, setStep] = useState<1 | 2>(1); // signup: step 1 = account, step 2 = profile
+  const [step, setStep] = useState<1 | 2>(1);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [cipFile, setCipFile] = useState<File | null>(null);
 
   const [form, setForm] = useState({
     email: "", password: "", confirm: "",
@@ -150,29 +143,94 @@ export default function AuthPage() {
     setForm((p) => ({ ...p, [field]: val }));
 
   const strength = getStrength(form.password);
-
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (mode === "signup" && step === 1) { setStep(2); return; }
-    setLoading(true);
-    setTimeout(() => setLoading(false), 1800);
+  // ─── Handlers ───────────────────────────────────────────────────────────────
+
+  const handleSignin = async () => {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: form.email, password: form.password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Erreur de connexion");
+    }
 
     router.replace("/profile");
+  };
+
+  const handleSignup = async () => {
+    const formData = new FormData();
+    formData.append("firstName", form.firstName);
+    formData.append("lastName", form.lastName);
+    formData.append("email", form.email);
+    formData.append("npi", form.npi);
+    formData.append("password", form.password);
+    if (cipFile) formData.append("cip", cipFile);
+
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      body: formData, // pas de Content-Type, le navigateur le gère automatiquement
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Erreur lors de la création du compte");
+    }
+
+    // Auto-login après inscription
+    await handleSignin();
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    // Passage au step 2 (signup uniquement)
+    if (mode === "signup" && step === 1) {
+      if (form.password !== form.confirm) {
+        setError("Les mots de passe ne correspondent pas.");
+        return;
+      }
+      setStep(2);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      if (mode === "signin") {
+        await handleSignin();
+      } else {
+        await handleSignup();
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const switchMode = (m: "signin" | "signup") => {
     setMode(m);
     setStep(1);
-    setForm({ email: "", password: "", confirm: "", firstName: "", lastName: "", npi: "", cip: "", agreeTerms: false, agreeNewsletter: false });
+    setError(null);
+    setCipFile(null);
+    setForm({
+      email: "", password: "", confirm: "",
+      firstName: "", lastName: "", npi: "", cip: "",
+      agreeTerms: false, agreeNewsletter: false,
+    });
   };
 
   return (
     <div className="min-h-screen flex bg-base-100">
       <LeftPanel mode={mode} />
 
-      {/* Right: form */}
       <div className="flex-1 flex flex-col overflow-y-auto">
         {/* Mobile top bar */}
         <div className="lg:hidden flex items-center justify-between px-6 py-5 border-b border-primary/10">
@@ -253,6 +311,23 @@ export default function AuthPage() {
               </motion.div>
             </AnimatePresence>
 
+            {/* Error banner */}
+            <AnimatePresence>
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: "auto" }}
+                  exit={{ opacity: 0, y: -8, height: 0 }}
+                  className="mb-4"
+                >
+                  <div className="flex items-center gap-2.5 bg-error/10 border border-error/25 text-error rounded-xl px-4 py-3">
+                    <AlertCircle size={15} className="shrink-0" />
+                    <span className="text-xs font-medium">{error}</span>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Form */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <AnimatePresence mode="wait">
@@ -271,16 +346,14 @@ export default function AuthPage() {
                         <label className="label-text text-[10px] uppercase tracking-[0.2em] text-base-content/40 font-semibold">
                           Adresse e-mail <span className="text-primary">*</span>
                         </label>
-                        <div className="relative">
-                          <input
-                            type="email"
-                            required
-                            value={form.email}
-                            onChange={(e) => set("email", e.target.value)}
-                            placeholder="vous@exemple.fr"
-                            className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
-                          />
-                        </div>
+                        <input
+                          type="email"
+                          required
+                          value={form.email}
+                          onChange={(e) => set("email", e.target.value)}
+                          placeholder="vous@exemple.fr"
+                          className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
+                        />
                       </div>
 
                       <div className="form-control gap-1.5">
@@ -301,15 +374,14 @@ export default function AuthPage() {
                             {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
                           </button>
                         </div>
-                        {/* Strength bar (signup only) */}
                         {mode === "signup" && form.password && (
                           <div className="flex gap-1 mt-1">
                             {[1, 2, 3, 4, 5].map((i) => (
-                              <div key={i} className={`flex-1 h-1 rounded-full transition-all duration-300 ${i <= strength.score ? strength.color : "bg-base-300"
-                                }`} />
+                              <div key={i} className={`flex-1 h-1 rounded-full transition-all duration-300 ${i <= strength.score ? strength.color : "bg-base-300"}`} />
                             ))}
-                            <span className={`text-[10px] ml-1 font-medium ${strength.score <= 1 ? "text-error" : strength.score <= 3 ? "text-warning" : "text-success"
-                              }`}>{strength.label}</span>
+                            <span className={`text-[10px] ml-1 font-medium ${strength.score <= 1 ? "text-error" : strength.score <= 3 ? "text-warning" : "text-success"}`}>
+                              {strength.label}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -322,11 +394,11 @@ export default function AuthPage() {
                           <div className="relative">
                             <input
                               type={showConfirm ? "text" : "password"}
+                              required
                               value={form.confirm}
                               onChange={(e) => set("confirm", e.target.value)}
                               placeholder="Répétez votre mot de passe"
-                              className={`input input-bordered w-full pr-11 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20 ${form.confirm && form.confirm !== form.password ? "border-error/40" : ""
-                                }`}
+                              className={`input input-bordered w-full pr-11 bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20 ${form.confirm && form.confirm !== form.password ? "border-error/40" : ""}`}
                             />
                             <button type="button" onClick={() => setShowConfirm(!showConfirm)}
                               className="absolute right-3.5 top-1/2 -translate-y-1/2 text-base-content/30 hover:text-primary transition-colors">
@@ -341,9 +413,9 @@ export default function AuthPage() {
 
                       {mode === "signin" && (
                         <div className="flex justify-end -mt-1">
-                          <a href="/mot-de-passe-oublie" className="text-xs text-primary/60 hover:text-primary transition-colors">
+                          <Link href="/mot-de-passe-oublie" className="text-xs text-primary/60 hover:text-primary transition-colors">
                             Mot de passe oublié ?
-                          </a>
+                          </Link>
                         </div>
                       )}
                     </>
@@ -357,16 +429,14 @@ export default function AuthPage() {
                           <label className="label-text text-[10px] uppercase tracking-[0.2em] text-base-content/40 font-semibold">
                             Prénom <span className="text-primary">*</span>
                           </label>
-                          <div className="relative">
-                            <input
-                              type="text"
-                              required
-                              value={form.firstName}
-                              onChange={(e) => set("firstName", e.target.value)}
-                              placeholder="Jean"
-                              className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
-                            />
-                          </div>
+                          <input
+                            type="text"
+                            required
+                            value={form.firstName}
+                            onChange={(e) => set("firstName", e.target.value)}
+                            placeholder="Jean"
+                            className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
+                          />
                         </div>
                         <div className="form-control gap-1.5">
                           <label className="label-text text-[10px] uppercase tracking-[0.2em] text-base-content/40 font-semibold">
@@ -387,35 +457,36 @@ export default function AuthPage() {
                         <label className="label-text text-[10px] uppercase tracking-[0.2em] text-base-content/40 font-semibold">
                           Numéro NPI <span className="text-primary">*</span>
                         </label>
-                        <div className="relative">
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            value={form.npi}
-                            onChange={(e) => set("npi", e.target.value)}
-                            placeholder="1000000000"
-                            maxLength={10}
-                            min={10}
-                            className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
-                          />
-                        </div>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          required
+                          value={form.npi}
+                          onChange={(e) => set("npi", e.target.value)}
+                          placeholder="1000000000"
+                          maxLength={10}
+                          className="input input-bordered w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11 placeholder:text-base-content/20"
+                        />
                       </div>
 
                       <div className="form-control gap-1.5">
                         <label className="label-text text-[10px] uppercase tracking-[0.2em] text-base-content/40 font-semibold">
-                          Image du carte CIP <span className="text-primary">*</span>
+                          Image de la carte CIP <span className="text-primary">*</span>
                         </label>
-                        <div className="relative">
-                          <input
-                            type="file"
-                            className="file-input file-input-primary w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11"
-                            value={form.cip}
-                            onChange={(e) => set("cip", e.target.value)}
-                          />
-                        </div>
+                        <input
+                          type="file"
+                          accept="image/*,.pdf"
+                          required
+                          onChange={(e) => setCipFile(e.target.files?.[0] ?? null)}
+                          className="file-input file-input-primary w-full bg-base-200 border-primary/15 focus:border-primary/50 focus:outline-none text-sm rounded-xl h-11"
+                        />
+                        {cipFile && (
+                          <p className="text-[11px] text-success mt-0.5 flex items-center gap-1">
+                            <Check size={11} /> {cipFile.name}
+                          </p>
+                        )}
                       </div>
 
-                      {/* Agreements */}
                       <div className="flex flex-col gap-2 mt-1">
                         <label className="flex items-start gap-3 cursor-pointer">
                           <input
@@ -426,7 +497,7 @@ export default function AuthPage() {
                             required
                           />
                           <span className="text-xs text-base-content/40 leading-relaxed">
-                            J&apos;accepte les <a href="/cgu" className="text-primary hover:underline">Conditions d&apos;utilisation</a> et la <a href="/confidentialite" className="text-primary hover:underline">Politique de confidentialité</a> <span className="text-primary">*</span>
+                            J&apos;accepte les <Link href="/cgu" className="text-primary hover:underline">Conditions d&apos;utilisation</Link> et la <Link href="/confidentialite" className="text-primary hover:underline">Politique de confidentialité</Link> <span className="text-primary">*</span>
                           </span>
                         </label>
                         <label className="flex items-start gap-3 cursor-pointer">

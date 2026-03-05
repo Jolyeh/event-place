@@ -50,9 +50,13 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Session: 'Session',
-  Account: 'Account',
-  Verification: 'Verification'
+  PasswordResetToken: 'PasswordResetToken',
+  Event: 'Event',
+  Category: 'Category',
+  Tag: 'Tag',
+  Ticket: 'Ticket',
+  Booking: 'Booking',
+  BookingItem: 'BookingItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -63,10 +67,14 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  firstName: 'firstName',
+  lastName: 'lastName',
   email: 'email',
-  emailVerified: 'emailVerified',
+  npi: 'npi',
+  cip: 'cip',
+  password: 'password',
   image: 'image',
+  role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -74,49 +82,123 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const SessionScalarFieldEnum = {
+export const PasswordResetTokenScalarFieldEnum = {
   id: 'id',
-  expiresAt: 'expiresAt',
   token: 'token',
+  expiresAt: 'expiresAt',
+  used: 'used',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  ipAddress: 'ipAddress',
-  userAgent: 'userAgent',
   userId: 'userId'
 } as const
 
-export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
-export const AccountScalarFieldEnum = {
+export const EventScalarFieldEnum = {
   id: 'id',
-  accountId: 'accountId',
-  providerId: 'providerId',
-  userId: 'userId',
-  accessToken: 'accessToken',
-  refreshToken: 'refreshToken',
-  idToken: 'idToken',
-  accessTokenExpiresAt: 'accessTokenExpiresAt',
-  refreshTokenExpiresAt: 'refreshTokenExpiresAt',
-  scope: 'scope',
-  password: 'password',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  categoryId: 'categoryId',
+  tagIds: 'tagIds',
+  dateStart: 'dateStart',
+  timeStart: 'timeStart',
+  dateEnd: 'dateEnd',
+  timeEnd: 'timeEnd',
+  multiDay: 'multiDay',
+  isOnline: 'isOnline',
+  onlineUrl: 'onlineUrl',
+  venue: 'venue',
+  address: 'address',
+  city: 'city',
+  capacity: 'capacity',
+  coverImage: 'coverImage',
+  gallery: 'gallery',
+  isFree: 'isFree',
+  saleStart: 'saleStart',
+  saleEnd: 'saleEnd',
+  isPublic: 'isPublic',
+  requiresRegistration: 'requiresRegistration',
+  showCapacity: 'showCapacity',
+  allowRefunds: 'allowRefunds',
+  ageRestriction: 'ageRestriction',
+  contactEmail: 'contactEmail',
+  website: 'website',
+  rating: 'rating',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organizerId: 'organizerId'
+} as const
+
+export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  icon: 'icon',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
-export const VerificationScalarFieldEnum = {
+export const TagScalarFieldEnum = {
   id: 'id',
-  identifier: 'identifier',
-  value: 'value',
-  expiresAt: 'expiresAt',
+  name: 'name',
+  slug: 'slug',
+  eventIds: 'eventIds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+export const TicketScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  price: 'price',
+  quantity: 'quantity',
+  sold: 'sold',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  eventId: 'eventId'
+} as const
+
+export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
+
+
+export const BookingScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  userName: 'userName',
+  userEmail: 'userEmail',
+  userPhone: 'userPhone',
+  status: 'status',
+  totalAmount: 'totalAmount',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  eventId: 'eventId'
+} as const
+
+export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
+
+
+export const BookingItemScalarFieldEnum = {
+  id: 'id',
+  quantity: 'quantity',
+  price: 'price',
+  bookingId: 'bookingId',
+  ticketId: 'ticketId'
+} as const
+
+export type BookingItemScalarFieldEnum = (typeof BookingItemScalarFieldEnum)[keyof typeof BookingItemScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import Image from "next/image";
-import { Calendar, MapPin, ArrowRight, TrendingUp } from "lucide-react";
+import { Calendar, MapPin, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const upcoming = [
@@ -36,18 +36,6 @@ const upcoming = [
     status: "En attente",
     ticketRef: "#EVT-9312",
   },
-];
-
-const months = ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc"];
-const activityData = [2, 1, 4, 2, 6, 3, 5, 1, 3, 7, 4, 8];
-const maxVal = Math.max(...activityData);
-
-const favCategories = [
-  { name: "Concert", emoji: "🎵", count: 22, pct: 46 },
-  { name: "Conférence", emoji: "💼", count: 11, pct: 23 },
-  { name: "Exposition", emoji: "🎨", count: 7, pct: 15 },
-  { name: "Gala", emoji: "🍾", count: 4, pct: 9 },
-  { name: "Sport", emoji: "⚽", count: 3, pct: 7 },
 ];
 
 export default function ProfileOverview() {

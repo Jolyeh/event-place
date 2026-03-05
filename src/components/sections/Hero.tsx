@@ -75,7 +75,7 @@ export default function Hero() {
           </motion.p>
 
           {/* Search */}
-          <motion.div variants={item} className="mb-10 max-w-2xl">
+          {/* <motion.div variants={item} className="mb-10 max-w-2xl">
             <div className="flex flex-col sm:flex-row gap-3">
               <div id="searchBtn" className="flex-1 flex items-center border border-primary/20 rounded-2xl px-4 gap-3 focus-within:border-primary/50 transition-colors duration-200 hover:border-primary/35">
                 <Search size={16} className="text-primary/50 shrink-0" />
@@ -101,7 +101,7 @@ export default function Hero() {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </div>
 
