@@ -21,9 +21,5 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Mot de passe requis"),
 });
 
-export const eventSchema = z.object({
-});
-
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
-export type EventInput = z.infer<typeof eventSchema>;

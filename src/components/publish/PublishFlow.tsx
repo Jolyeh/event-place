@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   FileText, CalendarDays, Image, Ticket, Settings,
-  ArrowLeft, ArrowRight, Save, Send, ChevronRight,
+  ArrowLeft, ArrowRight, Send, ChevronRight, AlertCircle,
 } from "lucide-react";
 
 import StepSidebar from "./StepSidebar";
@@ -78,8 +78,6 @@ const STEPS = [
   { id: 5, label: "Options", sublabel: "Visibilité et extras", icon: <Settings size={14} /> },
 ];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 function getProgress(step: number): number {
   return Math.round((step / STEPS.length) * 100);
 }
@@ -110,6 +108,8 @@ export default function PublishFlow() {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<FormData>(INITIAL);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = useCallback(
     (field: string, value: string | boolean | string[] | null | TicketCategory[]) => {
@@ -118,10 +118,69 @@ export default function PublishFlow() {
     []
   );
 
+  const handleSubmit = async () => {
+    setError(null);
+    setLoading(true);
 
-  const handleSubmit = () => {
-    setSubmitted(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    try {
+      const res = await fetch("/api/events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: data.title,
+          category: data.category,
+          description: data.description,
+          language: data.language,
+
+          dateStart: data.dateStart,
+          timeStart: data.timeStart,
+          dateEnd: data.dateEnd || undefined,
+          timeEnd: data.timeEnd || undefined,
+          multiDay: data.multiDay,
+          isOnline: data.isOnline,
+          onlineUrl: data.onlineUrl || undefined,
+          venue: data.venue || undefined,
+          address: data.address || undefined,
+          city: data.city || undefined,
+          capacity: data.capacity ? parseInt(data.capacity) : undefined,
+
+          coverImage: data.coverImage,
+          gallery: data.gallery,
+
+          isFree: data.isFree,
+          tickets: data.tickets.map((t) => ({
+            name: t.name,
+            price: t.price,
+            quantity: t.quantity,
+            description: t.description,
+          })),
+          saleStart: data.saleStart || undefined,
+          saleEnd: data.saleEnd || undefined,
+
+          tags: data.tags,
+          isPublic: data.isPublic,
+          requiresRegistration: data.requiresRegistration,
+          showCapacity: data.showCapacity,
+          allowRefunds: data.allowRefunds,
+          ageRestriction: data.ageRestriction || undefined,
+          contactEmail: data.contactEmail || undefined,
+          website: data.website || undefined,
+        }),
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new Error(json.error || "Erreur lors de la publication");
+      }
+
+      setSubmitted(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Erreur serveur");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const canGoNext = (): boolean => {
@@ -132,7 +191,6 @@ export default function PublishFlow() {
     return true;
   };
 
-  // Derived preview values
   const preview = {
     title: data.title,
     category: data.category,
@@ -143,7 +201,6 @@ export default function PublishFlow() {
     image: data.coverImage,
   };
 
-  // Step validation pills
   const stepStatus = STEPS.map((s) => {
     if (s.id < step) return "done";
     if (s.id === step) return "active";
@@ -172,7 +229,6 @@ export default function PublishFlow() {
 
             {/* Mobile step header */}
             <div className="lg:hidden bg-base-200 border-b border-primary/10 px-4 py-3 w-full">
-              {/* Header (Progress bar) */}
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] uppercase tracking-[0.2em] text-primary font-semibold">
                   Étape {step}/{STEPS.length}
@@ -190,37 +246,26 @@ export default function PublishFlow() {
                 />
               </div>
 
-              {/* Mobile step pills - VERSION PLEINE LARGEUR */}
               <div className="flex w-full gap-1 mt-4">
                 {STEPS.map((s) => {
                   const status = stepStatus[s.id - 1];
                   const isActive = status === "active";
-
                   return (
                     <div
                       key={s.id}
-                      className={`
-                        flex items-center justify-center gap-1.5 py-2 rounded-lg transition-all duration-300
-                        /* C'est ici que la magie opère pour la largeur : */
-                        flex-1 min-w-0 
-                        ${isActive
+                      className={`flex items-center justify-center gap-1.5 py-2 rounded-lg transition-all duration-300 flex-1 min-w-0 ${
+                        isActive
                           ? "bg-primary/10 border border-primary/30 text-primary"
                           : "bg-transparent text-base-content/20"
-                        }
-                      `}
+                      }`}
                     >
-                      {/* Cercle avec le numéro */}
-                      <span
-                        className={`w-4 h-4 rounded-full flex items-center justify-center font-bold text-[9px] shrink-0 ${status === "done" ? "bg-primary text-primary-content" :
-                          isActive ? "bg-primary text-primary-content shadow-sm" :
-                            "bg-base-300 text-base-content/30"
-                          }`}
-                      >
+                      <span className={`w-4 h-4 rounded-full flex items-center justify-center font-bold text-[9px] shrink-0 ${
+                        status === "done" ? "bg-primary text-primary-content" :
+                        isActive ? "bg-primary text-primary-content shadow-sm" :
+                        "bg-base-300 text-base-content/30"
+                      }`}>
                         {status === "done" ? "✓" : s.id}
                       </span>
-
-                      {/* Label : On l'affiche seulement s'il est actif OU sur grand mobile, 
-              sinon ça va casser la largeur sur les petits écrans */}
                       <span className={`text-[9px] uppercase font-bold truncate ${isActive ? "block" : "hidden sm:block"}`}>
                         {s.label}
                       </span>
@@ -265,84 +310,62 @@ export default function PublishFlow() {
                   </p>
                 </motion.div>
 
-                {/* Animated step panels */}
+                {/* Step panels */}
                 <AnimatePresence mode="wait">
                   <div key={`step-${step}`}>
                     {step === 1 && (
                       <Step1Infos
-                        data={{
-                          title: data.title,
-                          category: data.category,
-                          categoryEmoji: data.categoryEmoji,
-                          description: data.description,
-                          language: data.language,
-                        }}
+                        data={{ title: data.title, category: data.category, categoryEmoji: data.categoryEmoji, description: data.description, language: data.language }}
                         onChange={handleChange}
                       />
                     )}
                     {step === 2 && (
                       <Step2DateTime
-                        data={{
-                          dateStart: data.dateStart,
-                          timeStart: data.timeStart,
-                          dateEnd: data.dateEnd,
-                          timeEnd: data.timeEnd,
-                          multiDay: data.multiDay,
-                          venue: data.venue,
-                          address: data.address,
-                          city: data.city,
-                          capacity: data.capacity,
-                          isOnline: data.isOnline,
-                          onlineUrl: data.onlineUrl,
-                        }}
+                        data={{ dateStart: data.dateStart, timeStart: data.timeStart, dateEnd: data.dateEnd, timeEnd: data.timeEnd, multiDay: data.multiDay, venue: data.venue, address: data.address, city: data.city, capacity: data.capacity, isOnline: data.isOnline, onlineUrl: data.onlineUrl }}
                         onChange={handleChange}
                       />
                     )}
                     {step === 3 && (
                       <Step3Media
-                        data={{
-                          coverImage: data.coverImage,
-                          gallery: data.gallery,
-                          videoUrl: data.videoUrl,
-                        }}
+                        data={{ coverImage: data.coverImage, gallery: data.gallery, videoUrl: data.videoUrl }}
                         onChange={handleChange}
                       />
                     )}
                     {step === 4 && (
                       <Step4Tickets
-                        data={{
-                          isFree: data.isFree,
-                          tickets: data.tickets,
-                          saleStart: data.saleStart,
-                          saleEnd: data.saleEnd,
-                        }}
+                        data={{ isFree: data.isFree, tickets: data.tickets, saleStart: data.saleStart, saleEnd: data.saleEnd }}
                         onChange={handleChange}
                       />
                     )}
                     {step === 5 && (
                       <Step5Options
-                        data={{
-                          tags: data.tags,
-                          isPublic: data.isPublic,
-                          requiresRegistration: data.requiresRegistration,
-                          showCapacity: data.showCapacity,
-                          allowRefunds: data.allowRefunds,
-                          ageRestriction: data.ageRestriction,
-                          contactEmail: data.contactEmail,
-                          website: data.website,
-                        }}
+                        data={{ tags: data.tags, isPublic: data.isPublic, requiresRegistration: data.requiresRegistration, showCapacity: data.showCapacity, allowRefunds: data.allowRefunds, ageRestriction: data.ageRestriction, contactEmail: data.contactEmail, website: data.website }}
                         onChange={handleChange}
                       />
                     )}
                   </div>
                 </AnimatePresence>
 
-                {/* Navigation bar */}
+                {/* Error banner (step 5 publish) */}
+                <AnimatePresence>
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="flex items-center gap-2.5 bg-error/10 border border-error/25 text-error rounded-xl px-4 py-3 mt-6"
+                    >
+                      <AlertCircle size={14} className="shrink-0" />
+                      <span className="text-xs font-medium">{error}</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Navigation */}
                 <div className="flex items-center justify-between gap-4 mt-10 pt-6 border-t border-primary/10">
-                  {/* Back */}
                   <button
                     type="button"
-                    onClick={() => setStep((s) => Math.max(1, s - 1))}
+                    onClick={() => { setError(null); setStep((s) => Math.max(1, s - 1)); }}
                     disabled={step === 1}
                     className="btn btn-ghost rounded-full gap-2 text-xs uppercase tracking-widest border border-base-content/10 hover:border-primary/30 disabled:opacity-25 disabled:cursor-not-allowed"
                   >
@@ -351,8 +374,6 @@ export default function PublishFlow() {
                   </button>
 
                   <div className="flex items-center gap-2 ml-auto">
-
-                    {/* Next / Submit */}
                     {step < STEPS.length ? (
                       <button
                         type="button"
@@ -367,10 +388,14 @@ export default function PublishFlow() {
                       <button
                         type="button"
                         onClick={handleSubmit}
-                        className="btn btn-primary rounded-full gap-2 text-xs uppercase tracking-widest font-semibold px-8 animate-pulse hover:animate-none"
+                        disabled={loading}
+                        className="btn btn-primary rounded-full gap-2 text-xs uppercase tracking-widest font-semibold px-8 disabled:opacity-50"
                       >
-                        <Send size={14} />
-                        Publier
+                        {loading ? (
+                          <><span className="loading loading-spinner loading-sm" /> Publication…</>
+                        ) : (
+                          <><Send size={14} /> Publier</>
+                        )}
                       </button>
                     )}
                   </div>
@@ -395,6 +420,7 @@ export default function PublishFlow() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+
               </div>
             </div>
           </div>
