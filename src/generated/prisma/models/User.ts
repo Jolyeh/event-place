@@ -34,6 +34,8 @@ export type UserMinAggregateOutputType = {
   password: string | null
   image: string | null
   role: $Enums.UserRole | null
+  isActif: boolean | null
+  isVerify: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,6 +50,8 @@ export type UserMaxAggregateOutputType = {
   password: string | null
   image: string | null
   role: $Enums.UserRole | null
+  isActif: boolean | null
+  isVerify: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +66,8 @@ export type UserCountAggregateOutputType = {
   password: number
   image: number
   role: number
+  isActif: number
+  isVerify: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -78,6 +84,8 @@ export type UserMinAggregateInputType = {
   password?: true
   image?: true
   role?: true
+  isActif?: true
+  isVerify?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -92,6 +100,8 @@ export type UserMaxAggregateInputType = {
   password?: true
   image?: true
   role?: true
+  isActif?: true
+  isVerify?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +116,8 @@ export type UserCountAggregateInputType = {
   password?: true
   image?: true
   role?: true
+  isActif?: true
+  isVerify?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -193,6 +205,8 @@ export type UserGroupByOutputType = {
   password: string
   image: string | null
   role: $Enums.UserRole
+  isActif: boolean
+  isVerify: boolean
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -228,6 +242,8 @@ export type UserWhereInput = {
   password?: Prisma.StringFilter<"User"> | string
   image?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  isActif?: Prisma.BoolFilter<"User"> | boolean
+  isVerify?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
@@ -244,6 +260,8 @@ export type UserOrderByWithRelationInput = {
   password?: Prisma.SortOrder
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActif?: Prisma.SortOrder
+  isVerify?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
@@ -263,6 +281,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringFilter<"User"> | string
   image?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  isActif?: Prisma.BoolFilter<"User"> | boolean
+  isVerify?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
@@ -279,6 +299,8 @@ export type UserOrderByWithAggregationInput = {
   password?: Prisma.SortOrder
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActif?: Prisma.SortOrder
+  isVerify?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -299,6 +321,8 @@ export type UserScalarWhereWithAggregatesInput = {
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
+  isActif?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  isVerify?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -313,6 +337,8 @@ export type UserCreateInput = {
   password: string
   image?: string | null
   role?: $Enums.UserRole
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -329,6 +355,8 @@ export type UserUncheckedCreateInput = {
   password: string
   image?: string | null
   role?: $Enums.UserRole
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -344,6 +372,8 @@ export type UserUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerify?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -359,6 +389,8 @@ export type UserUncheckedUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerify?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -375,6 +407,8 @@ export type UserCreateManyInput = {
   password: string
   image?: string | null
   role?: $Enums.UserRole
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -388,6 +422,8 @@ export type UserUpdateManyMutationInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerify?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -401,6 +437,8 @@ export type UserUncheckedUpdateManyInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerify?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -415,6 +453,8 @@ export type UserCountOrderByAggregateInput = {
   password?: Prisma.SortOrder
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActif?: Prisma.SortOrder
+  isVerify?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -429,6 +469,8 @@ export type UserMaxOrderByAggregateInput = {
   password?: Prisma.SortOrder
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActif?: Prisma.SortOrder
+  isVerify?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -443,6 +485,8 @@ export type UserMinOrderByAggregateInput = {
   password?: Prisma.SortOrder
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isActif?: Prisma.SortOrder
+  isVerify?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -463,6 +507,10 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type EnumUserRoleFieldUpdateOperationsInput = {
   set?: $Enums.UserRole
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -507,6 +555,8 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   password: string
   image?: string | null
   role?: $Enums.UserRole
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
@@ -522,6 +572,8 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   password: string
   image?: string | null
   role?: $Enums.UserRole
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
@@ -552,6 +604,8 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerify?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
@@ -566,6 +620,8 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerify?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
@@ -581,6 +637,8 @@ export type UserCreateWithoutEventsInput = {
   password: string
   image?: string | null
   role?: $Enums.UserRole
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -596,6 +654,8 @@ export type UserUncheckedCreateWithoutEventsInput = {
   password: string
   image?: string | null
   role?: $Enums.UserRole
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -626,6 +686,8 @@ export type UserUpdateWithoutEventsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerify?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -640,6 +702,8 @@ export type UserUncheckedUpdateWithoutEventsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerify?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -695,6 +759,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   password?: boolean
   image?: boolean
   role?: boolean
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
@@ -714,11 +780,13 @@ export type UserSelectScalar = {
   password?: boolean
   image?: boolean
   role?: boolean
+  isActif?: boolean
+  isVerify?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "npi" | "cip" | "password" | "image" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "npi" | "cip" | "password" | "image" | "role" | "isActif" | "isVerify" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   events?: boolean | Prisma.User$eventsArgs<ExtArgs>
@@ -741,6 +809,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     password: string
     image: string | null
     role: $Enums.UserRole
+    isActif: boolean
+    isVerify: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1146,6 +1216,8 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
+  readonly isActif: Prisma.FieldRef<"User", 'Boolean'>
+  readonly isVerify: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

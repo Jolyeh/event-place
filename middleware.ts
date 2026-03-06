@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 // Routes protégées (connexion requise)
-const PROTECTED_ROUTES = ["/profile"];
+const PROTECTED_ROUTES = ["/profile", "/publier"];
 
 // Routes auth (redirige si déjà connecté)
 const AUTH_ROUTES = ["/authentification", "/mot-de-passe-oublie", "/reset-password"];

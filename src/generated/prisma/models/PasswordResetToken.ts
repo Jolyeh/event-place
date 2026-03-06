@@ -377,10 +377,6 @@ export type PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.PasswordResetTokenScalarWhereInput | Prisma.PasswordResetTokenScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type PasswordResetTokenCreateWithoutUserInput = {
   id?: string
   token: string

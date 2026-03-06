@@ -57,3 +57,8 @@ export type Booking = Prisma.BookingModel
  * 
  */
 export type BookingItem = Prisma.BookingItemModel
+/**
+ * Model Newsletter
+ * 
+ */
+export type Newsletter = Prisma.NewsletterModel

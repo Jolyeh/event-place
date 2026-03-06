@@ -28,12 +28,10 @@ export type AggregateEvent = {
 
 export type EventAvgAggregateOutputType = {
   capacity: number | null
-  rating: number | null
 }
 
 export type EventSumAggregateOutputType = {
   capacity: number | null
-  rating: number | null
 }
 
 export type EventMinAggregateOutputType = {
@@ -64,7 +62,6 @@ export type EventMinAggregateOutputType = {
   ageRestriction: string | null
   contactEmail: string | null
   website: string | null
-  rating: number | null
   createdAt: Date | null
   updatedAt: Date | null
   organizerId: string | null
@@ -98,7 +95,6 @@ export type EventMaxAggregateOutputType = {
   ageRestriction: string | null
   contactEmail: string | null
   website: string | null
-  rating: number | null
   createdAt: Date | null
   updatedAt: Date | null
   organizerId: string | null
@@ -134,7 +130,6 @@ export type EventCountAggregateOutputType = {
   ageRestriction: number
   contactEmail: number
   website: number
-  rating: number
   createdAt: number
   updatedAt: number
   organizerId: number
@@ -144,12 +139,10 @@ export type EventCountAggregateOutputType = {
 
 export type EventAvgAggregateInputType = {
   capacity?: true
-  rating?: true
 }
 
 export type EventSumAggregateInputType = {
   capacity?: true
-  rating?: true
 }
 
 export type EventMinAggregateInputType = {
@@ -180,7 +173,6 @@ export type EventMinAggregateInputType = {
   ageRestriction?: true
   contactEmail?: true
   website?: true
-  rating?: true
   createdAt?: true
   updatedAt?: true
   organizerId?: true
@@ -214,7 +206,6 @@ export type EventMaxAggregateInputType = {
   ageRestriction?: true
   contactEmail?: true
   website?: true
-  rating?: true
   createdAt?: true
   updatedAt?: true
   organizerId?: true
@@ -250,7 +241,6 @@ export type EventCountAggregateInputType = {
   ageRestriction?: true
   contactEmail?: true
   website?: true
-  rating?: true
   createdAt?: true
   updatedAt?: true
   organizerId?: true
@@ -373,7 +363,6 @@ export type EventGroupByOutputType = {
   ageRestriction: string | null
   contactEmail: string | null
   website: string | null
-  rating: number | null
   createdAt: Date
   updatedAt: Date
   organizerId: string
@@ -432,7 +421,6 @@ export type EventWhereInput = {
   ageRestriction?: Prisma.StringNullableFilter<"Event"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"Event"> | string | null
   website?: Prisma.StringNullableFilter<"Event"> | string | null
-  rating?: Prisma.FloatNullableFilter<"Event"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   organizerId?: Prisma.StringFilter<"Event"> | string
@@ -473,7 +461,6 @@ export type EventOrderByWithRelationInput = {
   ageRestriction?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   website?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
@@ -517,7 +504,6 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   ageRestriction?: Prisma.StringNullableFilter<"Event"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"Event"> | string | null
   website?: Prisma.StringNullableFilter<"Event"> | string | null
-  rating?: Prisma.FloatNullableFilter<"Event"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   organizerId?: Prisma.StringFilter<"Event"> | string
@@ -558,7 +544,6 @@ export type EventOrderByWithAggregationInput = {
   ageRestriction?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   website?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
@@ -602,7 +587,6 @@ export type EventScalarWhereWithAggregatesInput = {
   ageRestriction?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   contactEmail?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   website?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
-  rating?: Prisma.FloatNullableWithAggregatesFilter<"Event"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   organizerId?: Prisma.StringWithAggregatesFilter<"Event"> | string
@@ -636,7 +620,6 @@ export type EventCreateInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutEventsInput
@@ -676,7 +659,6 @@ export type EventUncheckedCreateInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organizerId: string
@@ -712,7 +694,6 @@ export type EventUpdateInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutEventsNestedInput
@@ -751,7 +732,6 @@ export type EventUncheckedUpdateInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -790,7 +770,6 @@ export type EventCreateManyInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organizerId: string
@@ -823,7 +802,6 @@ export type EventUpdateManyMutationInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -857,7 +835,6 @@ export type EventUncheckedUpdateManyInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -911,7 +888,6 @@ export type EventCountOrderByAggregateInput = {
   ageRestriction?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   website?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
@@ -919,7 +895,6 @@ export type EventCountOrderByAggregateInput = {
 
 export type EventAvgOrderByAggregateInput = {
   capacity?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
 }
 
 export type EventMaxOrderByAggregateInput = {
@@ -950,7 +925,6 @@ export type EventMaxOrderByAggregateInput = {
   ageRestriction?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   website?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
@@ -984,7 +958,6 @@ export type EventMinOrderByAggregateInput = {
   ageRestriction?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   website?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
@@ -992,7 +965,6 @@ export type EventMinOrderByAggregateInput = {
 
 export type EventSumOrderByAggregateInput = {
   capacity?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
 }
 
 export type EventScalarRelationFilter = {
@@ -1071,15 +1043,6 @@ export type NullableIntFieldUpdateOperationsInput = {
 export type EventUpdategalleryInput = {
   set?: string[]
   push?: string | string[]
-}
-
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-  unset?: boolean
 }
 
 export type EventUpdatetagIdsInput = {
@@ -1223,7 +1186,6 @@ export type EventCreateWithoutOrganizerInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutEventsInput
@@ -1262,7 +1224,6 @@ export type EventUncheckedCreateWithoutOrganizerInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutEventsInput
@@ -1328,7 +1289,6 @@ export type EventScalarWhereInput = {
   ageRestriction?: Prisma.StringNullableFilter<"Event"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"Event"> | string | null
   website?: Prisma.StringNullableFilter<"Event"> | string | null
-  rating?: Prisma.FloatNullableFilter<"Event"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   organizerId?: Prisma.StringFilter<"Event"> | string
@@ -1362,7 +1322,6 @@ export type EventCreateWithoutCategoryInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tags?: Prisma.TagCreateNestedManyWithoutEventsInput
@@ -1400,7 +1359,6 @@ export type EventUncheckedCreateWithoutCategoryInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organizerId: string
@@ -1462,7 +1420,6 @@ export type EventCreateWithoutTagsInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutEventsInput
@@ -1501,7 +1458,6 @@ export type EventUncheckedCreateWithoutTagsInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organizerId: string
@@ -1558,7 +1514,6 @@ export type EventCreateWithoutTicketsInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutEventsInput
@@ -1597,7 +1552,6 @@ export type EventUncheckedCreateWithoutTicketsInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organizerId: string
@@ -1648,7 +1602,6 @@ export type EventUpdateWithoutTicketsInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutEventsNestedInput
@@ -1686,7 +1639,6 @@ export type EventUncheckedUpdateWithoutTicketsInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1722,7 +1674,6 @@ export type EventCreateWithoutBookingsInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutEventsInput
@@ -1761,7 +1712,6 @@ export type EventUncheckedCreateWithoutBookingsInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organizerId: string
@@ -1812,7 +1762,6 @@ export type EventUpdateWithoutBookingsInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutEventsNestedInput
@@ -1850,7 +1799,6 @@ export type EventUncheckedUpdateWithoutBookingsInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1888,7 +1836,6 @@ export type EventCreateManyOrganizerInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1920,7 +1867,6 @@ export type EventUpdateWithoutOrganizerInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutEventsNestedInput
@@ -1958,7 +1904,6 @@ export type EventUncheckedUpdateWithoutOrganizerInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tags?: Prisma.TagUncheckedUpdateManyWithoutEventsNestedInput
@@ -1995,7 +1940,6 @@ export type EventUncheckedUpdateManyWithoutOrganizerInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2029,7 +1973,6 @@ export type EventCreateManyCategoryInput = {
   ageRestriction?: string | null
   contactEmail?: string | null
   website?: string | null
-  rating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organizerId: string
@@ -2062,7 +2005,6 @@ export type EventUpdateWithoutCategoryInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tags?: Prisma.TagUpdateManyWithoutEventsNestedInput
@@ -2099,7 +2041,6 @@ export type EventUncheckedUpdateWithoutCategoryInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2136,7 +2077,6 @@ export type EventUncheckedUpdateManyWithoutCategoryInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2169,7 +2109,6 @@ export type EventUpdateWithoutTagsInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutEventsNestedInput
@@ -2207,7 +2146,6 @@ export type EventUncheckedUpdateWithoutTagsInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2244,7 +2182,6 @@ export type EventUncheckedUpdateManyWithoutTagsInput = {
   ageRestriction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2329,7 +2266,6 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   ageRestriction?: boolean
   contactEmail?: boolean
   website?: boolean
-  rating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   organizerId?: boolean
@@ -2373,13 +2309,12 @@ export type EventSelectScalar = {
   ageRestriction?: boolean
   contactEmail?: boolean
   website?: boolean
-  rating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   organizerId?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "categoryId" | "tagIds" | "dateStart" | "timeStart" | "dateEnd" | "timeEnd" | "multiDay" | "isOnline" | "onlineUrl" | "venue" | "address" | "city" | "capacity" | "coverImage" | "gallery" | "isFree" | "saleStart" | "saleEnd" | "isPublic" | "requiresRegistration" | "showCapacity" | "allowRefunds" | "ageRestriction" | "contactEmail" | "website" | "rating" | "createdAt" | "updatedAt" | "organizerId", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "categoryId" | "tagIds" | "dateStart" | "timeStart" | "dateEnd" | "timeEnd" | "multiDay" | "isOnline" | "onlineUrl" | "venue" | "address" | "city" | "capacity" | "coverImage" | "gallery" | "isFree" | "saleStart" | "saleEnd" | "isPublic" | "requiresRegistration" | "showCapacity" | "allowRefunds" | "ageRestriction" | "contactEmail" | "website" | "createdAt" | "updatedAt" | "organizerId", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   tags?: boolean | Prisma.Event$tagsArgs<ExtArgs>
@@ -2428,7 +2363,6 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     ageRestriction: string | null
     contactEmail: string | null
     website: string | null
-    rating: number | null
     createdAt: Date
     updatedAt: Date
     organizerId: string
@@ -2858,7 +2792,6 @@ export interface EventFieldRefs {
   readonly ageRestriction: Prisma.FieldRef<"Event", 'String'>
   readonly contactEmail: Prisma.FieldRef<"Event", 'String'>
   readonly website: Prisma.FieldRef<"Event", 'String'>
-  readonly rating: Prisma.FieldRef<"Event", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Event", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Event", 'DateTime'>
   readonly organizerId: Prisma.FieldRef<"Event", 'String'>

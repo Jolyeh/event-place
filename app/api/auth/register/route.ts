@@ -6,7 +6,7 @@ import path from "path";
 import { prisma } from "@/src/config/prisma";
 import { registerSchema } from "@/src/validations/auth";
 
-const UPLOAD_DIR = path.join(process.cwd(), "uploads", "cip");
+const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "cip");
 
 export async function POST(req: NextRequest) {
   try {

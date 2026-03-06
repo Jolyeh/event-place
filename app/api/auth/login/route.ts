@@ -5,6 +5,7 @@ import { prisma } from "@/src/config/prisma";
 import { loginSchema } from "@/src/validations/auth";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
+const JWT_EXPIRATION = process.env.JWT_EXPIRATION || "";
 
 export async function POST(req: NextRequest) {
   try {
@@ -38,6 +39,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!user.isVerify) {
+      return NextResponse.json(
+        { error: "Votre compte en cours de validation" },
+        { status: 401 }
+      );
+    }
+
+    if (!user.isActif) {
+      return NextResponse.json(
+        { error: "Votre compte est suspendu. Contactez le service client." },
+        { status: 401 }
+      );
+    }
+
     // Créer le JWT (expire dans 7 jours)
     const token = await new SignJWT({
       id: user.id,
@@ -46,7 +61,7 @@ export async function POST(req: NextRequest) {
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
-      .setExpirationTime("7d")
+      .setExpirationTime(JWT_EXPIRATION)
       .sign(JWT_SECRET);
 
     const response = NextResponse.json({

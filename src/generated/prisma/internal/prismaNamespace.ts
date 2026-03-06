@@ -397,7 +397,8 @@ export const ModelName = {
   Tag: 'Tag',
   Ticket: 'Ticket',
   Booking: 'Booking',
-  BookingItem: 'BookingItem'
+  BookingItem: 'BookingItem',
+  Newsletter: 'Newsletter'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "passwordResetToken" | "event" | "category" | "tag" | "ticket" | "booking" | "bookingItem"
+    modelProps: "user" | "passwordResetToken" | "event" | "category" | "tag" | "ticket" | "booking" | "bookingItem" | "newsletter"
     txIsolationLevel: never
   }
   model: {
@@ -1009,6 +1010,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Newsletter: {
+      payload: Prisma.$NewsletterPayload<ExtArgs>
+      fields: Prisma.NewsletterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NewsletterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NewsletterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload>
+        }
+        findFirst: {
+          args: Prisma.NewsletterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NewsletterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload>
+        }
+        findMany: {
+          args: Prisma.NewsletterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload>[]
+        }
+        create: {
+          args: Prisma.NewsletterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload>
+        }
+        createMany: {
+          args: Prisma.NewsletterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.NewsletterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload>
+        }
+        update: {
+          args: Prisma.NewsletterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload>
+        }
+        deleteMany: {
+          args: Prisma.NewsletterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NewsletterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.NewsletterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterPayload>
+        }
+        aggregate: {
+          args: Prisma.NewsletterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNewsletter>
+        }
+        groupBy: {
+          args: Prisma.NewsletterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NewsletterGroupByOutputType>[]
+        }
+        findRaw: {
+          args: Prisma.NewsletterFindRawArgs<ExtArgs>
+          result: Prisma.JsonObject
+        }
+        aggregateRaw: {
+          args: Prisma.NewsletterAggregateRawArgs<ExtArgs>
+          result: Prisma.JsonObject
+        }
+        count: {
+          args: Prisma.NewsletterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NewsletterCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1036,6 +1111,8 @@ export const UserScalarFieldEnum = {
   password: 'password',
   image: 'image',
   role: 'role',
+  isActif: 'isActif',
+  isVerify: 'isVerify',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1085,7 +1162,6 @@ export const EventScalarFieldEnum = {
   ageRestriction: 'ageRestriction',
   contactEmail: 'contactEmail',
   website: 'website',
-  rating: 'rating',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   organizerId: 'organizerId'
@@ -1162,6 +1238,16 @@ export const BookingItemScalarFieldEnum = {
 export type BookingItemScalarFieldEnum = (typeof BookingItemScalarFieldEnum)[keyof typeof BookingItemScalarFieldEnum]
 
 
+export const NewsletterScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NewsletterScalarFieldEnum = (typeof NewsletterScalarFieldEnum)[keyof typeof NewsletterScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1213,6 +1299,13 @@ export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -1223,13 +1316,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1262,20 +1348,6 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
  * Reference to a field of type 'BookingStatus'
  */
 export type EnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus'>
@@ -1286,6 +1358,20 @@ export type EnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'BookingStatus[]'
  */
 export type ListEnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -1382,6 +1468,7 @@ export type GlobalOmitConfig = {
   ticket?: Prisma.TicketOmit
   booking?: Prisma.BookingOmit
   bookingItem?: Prisma.BookingItemOmit
+  newsletter?: Prisma.NewsletterOmit
 }
 
 /* Types for Logging */

@@ -87,7 +87,7 @@ export default function ProfileOverview() {
                     <div className="flex items-center gap-3 mt-0.5">
                       <div className="flex items-center gap-1 text-base-content/35">
                         <MapPin size={10} className="text-primary/40" />
-                        <span className="text-[11px] truncate max-w-[160px]">{ev.location}</span>
+                        <span className="text-[11px] truncate max-w-40">{ev.location}</span>
                       </div>
                     </div>
                   </div>

@@ -72,8 +72,8 @@ export default function ProfilePage() {
       {/* Cover */}
       <div className="relative h-40 sm:h-52 lg:h-60 overflow-hidden">
         <Image src={DEFAULT_COVER} alt="cover" fill className="object-cover" priority />
-        <div className="absolute inset-0 bg-gradient-to-t from-base-100 via-base-100/30 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-base-100 via-base-100/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-primary/10 via-transparent to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

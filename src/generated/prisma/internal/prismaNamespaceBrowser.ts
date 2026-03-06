@@ -56,7 +56,8 @@ export const ModelName = {
   Tag: 'Tag',
   Ticket: 'Ticket',
   Booking: 'Booking',
-  BookingItem: 'BookingItem'
+  BookingItem: 'BookingItem',
+  Newsletter: 'Newsletter'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -75,6 +76,8 @@ export const UserScalarFieldEnum = {
   password: 'password',
   image: 'image',
   role: 'role',
+  isActif: 'isActif',
+  isVerify: 'isVerify',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -124,7 +127,6 @@ export const EventScalarFieldEnum = {
   ageRestriction: 'ageRestriction',
   contactEmail: 'contactEmail',
   website: 'website',
-  rating: 'rating',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   organizerId: 'organizerId'
@@ -199,6 +201,16 @@ export const BookingItemScalarFieldEnum = {
 } as const
 
 export type BookingItemScalarFieldEnum = (typeof BookingItemScalarFieldEnum)[keyof typeof BookingItemScalarFieldEnum]
+
+
+export const NewsletterScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NewsletterScalarFieldEnum = (typeof NewsletterScalarFieldEnum)[keyof typeof NewsletterScalarFieldEnum]
 
 
 export const SortOrder = {

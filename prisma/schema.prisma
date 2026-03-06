@@ -27,6 +27,8 @@ model User {
   password  String
   image     String?
   role      UserRole @default(ORGANIZER)
+  isActif   Boolean  @default(true)
+  isVerify  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -96,7 +98,6 @@ model Event {
   ageRestriction       String?
   contactEmail         String?
   website              String?
-  rating               Float?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -176,6 +177,13 @@ model BookingItem {
   booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
   ticketId  String  @db.ObjectId
   ticket    Ticket  @relation(fields: [ticketId], references: [id])
+}
+
+model Newsletter {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ============================================================
